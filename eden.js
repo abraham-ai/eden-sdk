@@ -1,144 +1,99 @@
 import axios from "axios";
-import fs from 'fs/promises'
-import FormData from 'form-data';
+import dotenv from "dotenv";
+dotenv.config();
 
-const EDEN_API_URL = "http://0.0.0.0:5050";
+import { setAuthToken, loginEth, loginApi } from './auth.js';
+import { getCreations, getCreation, startCreation, getCreationStatus, create } from './creations.js';
+import { uploadMedia } from './media.js';
+import { getGenerators, getGenerator } from './generators.js';
+import { getCollection, getCollections, createCollection, updateCollection, addToCollection, removeFromCollection, renameCollection, deleteCollection } from './collections.js';
+import { getCreator, getCreators } from './creators.js';
+import { getFollowing, getFollowers, updateFollowing, follow, unfollow } from './follow.js';
+import { getProfile, updateProfile, getApiKeys, createNewApiKey, getBalance } from './user.js';
 
-const makeApiRequest = async (method, url, data=null, headers=null) => 
+
+const EDEN_API_URL = process.env.EDEN_API_URL 
+  ? process.env.EDEN_API_URL 
+  : "https://api.eden.art";
+
+const EDEN_API_KEY = process.env.EDEN_API_KEY 
+  ? process.env.EDEN_API_KEY 
+  : null;
+
+const EDEN_API_SECRET = process.env.EDEN_API_SECRET 
+  ? process.env.EDEN_API_SECRET
+  : null; 
+
+
+export const makeApiRequest = async (method, url, data=null, headers=null) => 
 {
-  const response = await axios({
+  const payload = {
     method: method,
     url: url,
     data: data,
     headers: headers,
-  });
-  return response.data;
+  }
+  // console.log("======================\n", payload);
+  try {
+    const response = await axios(payload);
+    return response.data;
+  } catch (error) {
+    return error.response.data.message;
+  }
 }
 
 export class Eden 
 {
-  constructor(apiKey, apiSecret, apiUrl=null) 
+  constructor(apiKey=null, apiSecret=null, apiUrl=null) 
   {
+    this.setAuthToken = setAuthToken; 
+    this.loginEth = loginEth; 
+    this.loginApi = loginApi;
+    
+    this.getCreations = getCreations; 
+    this.getCreation = getCreation; 
+    this.startCreation = startCreation; 
+    this.getCreationStatus = getCreationStatus; 
+    this.create = create;
+    
+    this.uploadMedia = uploadMedia;
+    
+    this.getGenerators = getGenerators; 
+    this.getGenerator = getGenerator;
+    
+    this.getCollection = getCollection; 
+    this.getCollections = getCollections; 
+    this.createCollection = createCollection; 
+    this.updateCollection = updateCollection;
+    this.addToCollection = addToCollection;
+    this.removeFromCollection = removeFromCollection;
+    this.renameCollection = renameCollection; 
+    this.deleteCollection = deleteCollection;
+    
+    this.getCreator = getCreator; 
+    this.getCreators = getCreators;
+    
+    this.getFollowing = getFollowing; 
+    this.getFollowers = getFollowers; 
+    this.updateFollowing = updateFollowing;
+    this.follow = follow; 
+    this.unfollow = unfollow;
+    
+    this.getProfile = getProfile; 
+    this.updateProfile = updateProfile; 
+    this.getApiKeys = getApiKeys; 
+    this.createNewApiKey = createNewApiKey; 
+    this.getBalance = getBalance;
+
     this.API_URL = apiUrl ? apiUrl : EDEN_API_URL;
-    this.headers = {
-      'x-api-key': apiKey,
-      'x-api-secret': apiSecret,
+    this.API_KEY = apiKey ? apiKey : EDEN_API_KEY;
+    this.API_SECRET = apiSecret ? apiSecret : EDEN_API_SECRET;
+
+    if (this.API_URL && this.API_SECRET) {
+      this.loginApi(this.API_KEY, this.API_SECRET);
     }
   }
-
-  async loginEth(message, signature) 
-  {
-    // this.headers = {
-    //   Authorization: `Bearer ${authToken}`,
-    // },
-  }
-
-  async startCreation(generatorName, config) 
-  {
-    const request = {
-      generatorName: generatorName,
-      config: config,
-    };    
-    const result = await makeApiRequest(
-      'post', 
-      this.API_URL + '/tasks/create', 
-      request,
-      this.headers,
-    );    
-    return result.taskId;
-  };
-
-  async getCreationStatus(taskId) {
-    const data = { taskIds: [taskId] };
-    const response = await makeApiRequest(
-      'post', 
-      this.API_URL + '/tasks/fetch',
-      data,
-      this.headers,
-    );
-    let { status, output } = response.tasks[0];
-    if (status == "completed") {
-      const outputUrl = output.slice(-1);
-      return { status, outputUrl, error: null };
-    } 
-    else if (status == "failed") {
-      return { status, outputUrl: null, error: "Prediction failed" };
-    }
-    return { status, outputUrl: null, error: null };
-  };
-
-  async create(generatorName, config, pollingInterval = 2000)
-  {
-    let taskId = await this.startCreation(generatorName, config);
-    let response = await this.getCreationStatus(taskId);
-    while (
-      response.status == "pending" ||
-      response.status == "starting" ||
-      response.status == "running"
-    ) {
-      await new Promise((r) => setTimeout(r, pollingInterval));
-      response = await this.getCreationStatus(taskId);
-      console.log("response", response)
-    }
-    return response;
-  };
-
-  async getCreations(userId) {
-    if (!userId) {
-      return { data: [] };
-    }
-    const result = makeApiRequest(
-      "post",
-      this.API_URL + "/fetch",
-      { userIds: [userId] },
-    )
-    return result;
-  };
-
-  async uploadMedia(filePath) {
-    const media = await fs.readFile(filePath);
-    const form = new FormData();
-    form.append('media', media);
-    const result = await makeApiRequest(
-      'post', 
-      this.API_URL + '/media',
-      form,
-      {...form.getHeaders(), ...this.headers},
-    );    
-    return result;
-  };
-
-  async createNewApiKey() {
-    const result = await makeApiRequest(
-      'post', 
-      this.API_URL + '/api-key/create',
-      this.headers,
-    );    
-    return {apiKey: result.apiKey, apiSecret: result.apiSecret};
-  }
-
-  //async getMyCreations() {
-    // TODO: get my creations
-  //}
-
-  async getGenerators() {
-    const result = await makeApiRequest(
-      'get', 
-      this.API_URL + '/generators',
-    );
-    return result.generators;
-  }
-
-  async getGenerator(generatorName) {
-    const generators = await this.getGenerators();
-    const generator = generators.filter(
-      (obj) => {
-        return obj.generatorName === generatorName
-      });
-    const latestGeneratorVersion = generator[0].versions[0];
-    return latestGeneratorVersion;
-  };
-
 }
+
 
 export default Eden;
