@@ -1,14 +1,11 @@
 import {makeApiRequest} from './eden.js';
 
 
-export const getCreations = async function(userId) {
-  if (!userId) {
-    throw new Error("User ID is required");
-  }
+export const getCreations = async function(filter) {
   const result = await makeApiRequest(
-    "get",
+    "post",
     this.API_URL + "/creations",
-    { userIds: [userId] },
+    filter,
   )
   return result.creations;
 };
