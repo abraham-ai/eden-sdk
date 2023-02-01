@@ -1,6 +1,6 @@
-import Eden from "../eden.js";
+import EdenClient from "../eden.js";
 
-let eden = new Eden();
+let eden = new EdenClient();
 
 let config = {
   text_input: "hello world i am a dog"

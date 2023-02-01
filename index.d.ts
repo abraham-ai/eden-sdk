@@ -33,6 +33,11 @@ declare class Collection {
 declare class EdenClient {
   constructor();
   getCollection(name: any): Promise<Collection>;
+
+  setAuthToken(authToken: string): void;
+  loginEth(message: string, signature: string, address:string): string;
+  loginApi(apiKey: string, apiSecret: string): void;
+
 }
 
 export default EdenClient;

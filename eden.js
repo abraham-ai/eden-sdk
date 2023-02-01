@@ -1,13 +1,126 @@
+import axios from "axios";
+import dotenv from "dotenv";
+
 import {Collection} from './Collection.js';
 import {Creation} from './Creation.js';
 
+dotenv.config();
 
-// Create a class for the SDK
+
+const EDEN_API_URL = process.env.EDEN_API_URL 
+  ? process.env.EDEN_API_URL 
+  : "https://api.eden.art";
+
+const EDEN_API_KEY = process.env.EDEN_API_KEY 
+  ? process.env.EDEN_API_KEY 
+  : null;
+
+const EDEN_API_SECRET = process.env.EDEN_API_SECRET 
+  ? process.env.EDEN_API_SECRET
+  : null; 
+
+
+export const MakeHTTPRequest = async (method, url, data=null, headers=null) => {
+  const payload = {
+    method: method,
+    url: url,
+    data: data,
+    headers: headers,
+  }
+  try {
+    const response = await axios(payload);
+    return response.data;
+  } catch (error) {
+    return error.response.data.message;
+  }
+};
+
+
 class EdenClient {
 
-  constructor() {
-    // your constructor logic here
+  constructor(apiKey=null, apiSecret=null, apiUrl=null) {
+    this.headers = {};
+    this.API_URL = apiUrl ? apiUrl : EDEN_API_URL;
+    this.API_KEY = apiKey ? apiKey : EDEN_API_KEY;
+    this.API_SECRET = apiSecret ? apiSecret : EDEN_API_SECRET;
+    if (this.API_URL && this.API_SECRET) {
+      this.loginApi(this.API_KEY, this.API_SECRET);
+    }
+  };
+
+  post = async function(route, data=null, headers=null) {
+    const url = this.API_URL + route;
+    headers = headers ? headers : this.headers;
+    return MakeHTTPRequest('post', url, data, headers);
   }
+  
+  get = async function(route, data=null, headers=null) {
+    const url = this.API_URL + route;
+    return MakeHTTPRequest('get', url, data, headers);
+  }
+  
+  setAuthToken = async function(authToken) {
+    this.headers = {
+      Authorization: `Bearer ${authToken}`,
+    };
+  };
+  
+  loginEth = async function(message, signature, address) {
+    const request = {     
+      address: address,
+      message: message,
+      signature: signature,
+    }
+    const result = await this.post('/user/login', request);
+    this.setAuthToken(result.token);
+    return result.token;
+  };
+  
+  loginApi = async function(apiKey, apiSecret) {
+    this.headers = {
+      'x-api-key': apiKey,
+      'x-api-secret': apiSecret,
+    };
+  };
+
+  startCreation = async function(generatorName, config, generatorVersion=null) {
+    const request = {
+      generatorName: generatorName,
+      config: config,
+      generatorVersion: generatorVersion,
+    };    
+    const result = await this.post('/user/tasks/create', request);
+    return result.taskId;
+  };
+  
+  getCreationStatus = async function(taskId) {
+    const data = { taskIds: [taskId] };
+    const response = await this.post('/user/tasks/fetch', data);
+    console.log(response)
+    const { status, output } = response.tasks[0];
+    if (status == "completed") {
+      const outputUrl = output.slice(-1);
+      return { status, outputUrl };
+    } else if (status == "failed") {
+      return { status, error: "Prediction failed" };
+    }
+    return { status };
+  };
+  
+  create = async function(generatorName, config, generatorVersion=null, pollingInterval = 2000) {
+    let taskId = await this.startCreation(generatorName, config, generatorVersion);
+    let response = await this.getCreationStatus(taskId);
+    while (
+      response.status == "pending" ||
+      response.status == "starting" ||
+      response.status == "running"
+    ) {
+      await new Promise((r) => setTimeout(r, pollingInterval));
+      response = await this.getCreationStatus(taskId);
+    }
+    return response;
+  };
+
 
   getCollection = async (name) => {
     // Fetch collection from API and return a Collection object
