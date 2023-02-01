@@ -34,11 +34,11 @@ export const getApiKeys = async function()
   return result;
 };
 
-export const createNewApiKey = async function() {
+export const createNewApiKey = async function(note) {
   const result = await makeApiRequest(
     'post', 
     this.API_URL + '/user/api/create',
-    {},
+    {note: note},
     this.headers,
   );    
   return {apiKey: result.apiKey, apiSecret: result.apiSecret};

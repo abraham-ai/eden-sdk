@@ -34,7 +34,8 @@ export const startCreation = async function(generatorName, config, generatorVers
     this.API_URL + '/user/tasks/create', 
     request,
     this.headers,
-  );    
+  );
+
   return result.taskId;
 };
 
@@ -69,7 +70,6 @@ export const create = async function(generatorName, config, generatorVersion=nul
   ) {
     await new Promise((r) => setTimeout(r, pollingInterval));
     response = await this.getCreationStatus(taskId);
-    console.log("response", response)
   }
   return response;
 };

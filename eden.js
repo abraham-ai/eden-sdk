@@ -33,7 +33,7 @@ export const makeApiRequest = async (method, url, data=null, headers=null) =>
     data: data,
     headers: headers,
   }
-  // console.log("======================\n", payload);
+  //console.log("======================\n", payload);
   try {
     const response = await axios(payload);
     return response.data;

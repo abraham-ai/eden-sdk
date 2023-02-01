@@ -59,12 +59,14 @@ export const removeFromCollection = async function(collectionId, creationId)
   return await updateCollection(collectionId, creationId, "remove");
 }
 
-export const renameCollection = async function(collectionId) 
+export const renameCollection = async function(collectionId, newName) 
 {
   // todo
+  return {success: "false"}
 }
 
 export const deleteCollection = async function(collectionId) 
 {
   // todo
+  return {success: "false"}
 }
