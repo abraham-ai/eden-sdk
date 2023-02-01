@@ -56,4 +56,4 @@ export const getBalance = async function() {
     this.headers,
   );
   return result.balance;
-};
+}.bind(this);
