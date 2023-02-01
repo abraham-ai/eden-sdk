@@ -96,7 +96,9 @@ class EdenClient {
   getCreationStatus = async function(taskId) {
     const data = { taskIds: [taskId] };
     const response = await this.post('/user/tasks/fetch', data);
-    console.log(response)
+    if (!response.tasks) {
+      return { status: "failed", error: "Task not found" };
+    }
     const { status, output } = response.tasks[0];
     if (status == "completed") {
       const outputUrl = output.slice(-1);
