@@ -20,17 +20,41 @@ class Collection {
     this.createdAt = data.createdAt;
   }
 
-  getCreations() {
+  getCreations = async () => {
     // Fetch creations from API and return an array of Creation objects
-    return fetch('/api/collections/' + this.name + '/creations')
-      .then(response => response.json())
-      .then(data => data.map(creation => new Creation(creation)));
+    // return fetch('/api/collections/' + this.name + '/creations')
+    //   .then(response => response.json())
+    //   .then(data => data.map(creation => new Creation(creation)));
+    return [
+      new Creation({
+        user: '0x123',
+        task: '0x456',
+        uri: 'https://ipfs.io/ipfs/Qm...',
+        attributes: {
+          name: 'My Creation',
+          description: 'This is my creation',
+          image: 'https://ipfs.io/ipfs/Qm...',
+        },
+        createdAt: '2021-01-01T00:00:00Z',
+      }),
+      new Creation({
+        user: '0x123323',
+        task: '0x456323',
+        uri: 'https://ipfs.io/ipfs/Qm...',
+        attributes: {
+          name: 'A My Creation',
+          description: 'T111 222his is my creation asd',
+          image: 'https://ipfs.isrfadsfdsfo/ipfs/Qm...',
+        },
+        createdAt: '2021-01-01T00:00:00Z',
+      }),
+    ]
   }
 }
 
 // Create a class for the SDK
 class EdenClient {
-  getCollection(name) {
+  getCollection = async (name) => {
     // Fetch collection from API and return a Collection object
     // return fetch('/api/collections/' + name)
     //   .then(response => response.json())
@@ -39,8 +63,28 @@ class EdenClient {
       user: '0x123',
       name: name,
       creations: [
-        '0x456',
-        '0x789',
+        new Creation({
+          user: '0x123',
+          task: '0x456',
+          uri: 'https://ipfs.io/ipfs/Qm...',
+          attributes: {
+            name: 'My Creation',
+            description: 'This is my creation',
+            image: 'https://ipfs.io/ipfs/Qm...',
+          },
+          createdAt: '2021-01-01T00:00:00Z',
+        }),
+        new Creation({
+          user: '0x123323',
+          task: '0x456323',
+          uri: 'https://ipfs.io/ipfs/Qm...',
+          attributes: {
+            name: 'A My Creation',
+            description: 'T111 222his is my creation asd',
+            image: 'https://ipfs.isrfadsfdsfo/ipfs/Qm...',
+          },
+          createdAt: '2021-01-01T00:00:00Z',
+        }),
       ],
       createdAt: '2021-01-01T00:00:00Z',
     });

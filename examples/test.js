@@ -1,3 +1,5 @@
-import eden from '../eden.js';
+import Eden from '../eden.js';
+
 console.log("GO!!")
-console.log(eden.getCollection("gogogog"))
+
+console.log(await Eden.getCollection("gogogog"))
