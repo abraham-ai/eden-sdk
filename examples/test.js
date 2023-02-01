@@ -1,4 +1,6 @@
-import Eden from '../eden.js';
+import EdenClient from '../eden.js';
+
+const Eden = new EdenClient();
 
 console.log("GO!!")
 

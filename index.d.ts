@@ -31,9 +31,10 @@ declare class Collection {
 }
 
 declare class EdenClient {
+  constructor();
   getCollection(name: any): Promise<Collection>;
 }
 
-declare const Eden: EdenClient;
+export default EdenClient;
 
-export default Eden;
+
