@@ -13,7 +13,7 @@ export class Creator {
   post = async function(route, params) {
     return await this.edenClient.post(`${this.baseRoute}${route}`, params);
   }
-
+  
   getFollowing = async function() {
     const result = await this.get('/following');
     return result.followers.map(follower => new Creator(this, follower));
