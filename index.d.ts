@@ -1,45 +1,97 @@
-declare class Creation {
-  user: any;
-  task: any;
-  uri: any;
-  attributes: any;
-  createdAt: any;
+declare class Creator {
+  creationId: string;
 
-  constructor(data: {
-    user: any;
-    task: any;
-    uri: any;
-    attributes: any;
-    createdAt: any;
-  });
-}
+  constructor(
+    edenClient: any,
+    creationId: string,
+  );
+
+  getFollowing(): Promise<Array[Creator]>;
+  getFollowers(): Promise<Array[Creator]>;
+  follow(): Promise<Any>;
+  unfollow(): Promise<Any>;
+  getProfile(): Promise<Creator>;
+};
+
+declare class Creation {
+  creationId: string;
+
+  constructor(
+    edenClient: any,
+    creationId: string,
+  );
+
+  react(reaction: string): Promise<any>;
+  getReactions(): Promise<Array[any]>;
+  getRecreations(): Promise<Array[Creation]>;
+  getCollections(): Promise<Array[Collection]>;
+};
 
 declare class Collection {
-  user: any;
-  name: any;
-  creations: Creation[];
-  createdAt: any;
+  collectionId: string;
+  // creations: Creation[];
+  // createdAt: any;
 
-  constructor(data: {
-    user: any;
-    name: any;
-    creations: any[];
-    createdAt: any;
-  });
+  constructor(
+    edenClient: any,
+    collectionId: string,
+  );
 
   getCreations(): Promise<Creation[]>;
-}
+  addCreation(): Promise<any>;
+  removeCreation(): Promise<any>;
+  rename(newName: string): Promise<any>;
+  delete(): Promise<any>;
+};
 
 declare class EdenClient {
-  constructor();
-  getCollection(name: any): Promise<Collection>;
 
-  setAuthToken(authToken: string): void;
-  loginEth(message: string, signature: string, address:string): string;
-  loginApi(apiKey: string, apiSecret: string): void;
+  constructor(
+    apiKey: string | null, 
+    apiSecret: string | null, 
+    apiUrl: string | null
+  );
+  
+  getCollection(
+    name: any,
+  ): Promise<Collection>;
+
+  setAuthToken(
+    authToken: string,
+  ): void;
+  
+  loginEth(
+    message: string, 
+    signature: string, 
+    address:string,
+  ): Promise<string>;
+  
+  loginApi(
+    apiKey: string,
+    apiSecret: string,
+  ): Promise<void>;
+
+  startCreation(
+    generatorName: string, 
+    config: object, 
+    generatorVersion:string
+  ): Promise<string>;
+
+  getCreationStatus(
+    taskId: string
+  ): Promise<object>;
+
+  create(
+    generatorName: string, 
+    config: object, 
+    generatorVersion: string
+  ): Promise<object>;
 
 }
 
-export default EdenClient;
-
-
+export {
+  Creator,
+  Creation,
+  Collection,
+  EdenClient,
+}

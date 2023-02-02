@@ -1,6 +1,6 @@
-import Eden from "../eden.js";
+import EdenClient from "../eden.js";
 
-let eden = new Eden();
+let eden = new EdenClient();
 
 // filter fields are all optional
 let filter = {
@@ -13,7 +13,7 @@ let filter = {
 let result = await eden.getCreations(filter);
 console.log(result);
 for (let creation of result) {
-  let { task, uri } = creation;
+  const { task, uri } = creation;
   console.log(`prompt: ${task.config.text_input}`, `uri: ${uri}`);  
 }
 

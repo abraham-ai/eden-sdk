@@ -1,6 +1,6 @@
-import Eden from "../eden.js";
+import EdenClient from "../eden.js";
 
-let eden = new Eden();
+let eden = new EdenClient();
 
 let generators = await eden.getGenerators();
 for (let generator of generators) {

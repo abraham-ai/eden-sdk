@@ -1,79 +1,94 @@
-import {makeApiRequest} from './eden.js';
+export class Creation {
+  
+  constructor(edenClient, creationId) {
+    this.edenClient = edenClient;
+    this.creationId = creationId;
+    this.baseRoute = `/creation/${this.creationId}`;
+  }
 
+  get = async function(route, params) {
+    return await this.edenClient.get(`${this.baseRoute}${route}`, params);
+  }
 
-export const getCreations = async function(filter) {
-  const result = await makeApiRequest(
-    "post",
-    this.API_URL + "/creations",
-    filter,
-  )
-  return result.creations;
+  post = async function(route, params) {
+    return await this.edenClient.post(`${this.baseRoute}${route}`, params);
+  }
+
+  react = async function(reaction) {
+    return await this.post('/react/', {reaction: reaction});
+  }
+
+  getReactions = async function() {
+    const result = await this.get('/recreations');
+    return result.map(creationId => new Creation(this.edenClient, creationId));
+  }
+
+  //recreate = async function() {}
+  //startRecration = async function() {}
+
+  getRecreations = async function() {
+    const result = await this.get('/recreations');
+    return result.map(creation => new Creation(this.edenClient, creation));
+  }
+
+  getCollections = async function() {
+    const result = await this.get('/collections');
+    return result.map(collection => new Collection(this.edenClient, collection));
+  }
+
 };
 
-export const getCreation = async function(creationId) {
+
+export async function getCreations(filter) {
+  const result = await this.post("/creations", filter);
+  return result.map(creation => new Creation(this, creation));
+};
+
+export async function getCreation(creationId) {
   if (!creationId) {
     throw new Error("Creation ID is required");
   }
-  const result = await makeApiRequest(
-    "get",
-    this.API_URL + `/creation/${creationId}`,
-    {},
-  )
-  return result.creation;
+  const result = await this.get(`/creation/${creationId}`);
+  return new Creation(this, result.creation);
 };
 
-export const startCreation = async function(generatorName, config, generatorVersion=null) 
-{
+export async function startTask(generatorName, config, generatorVersion=null) {
   const request = {
     generatorName: generatorName,
     config: config,
     generatorVersion: generatorVersion,
-  };    
-  const result = await makeApiRequest(
-    'post', 
-    this.API_URL + '/user/tasks/create', 
-    request,
-    this.headers,
-  );
-
+  };
+  const result = await this.post('/user/tasks/create', request);
   return result.taskId;
 };
 
-export const getCreationStatus = async function(taskId) 
-{
+export async function getTaskStatus(taskId) {
   const data = { taskIds: [taskId] };
-  const response = await makeApiRequest(
-    'post', 
-    this.API_URL + '/user/tasks/fetch',
-    data,
-    this.headers,
-  );
-  let { status, output } = response.tasks[0];
+  const response = await this.post('/user/tasks/fetch', data);
+  if (!response.tasks) {
+    return { status: "failed", error: "Task not found" };
+  }
+  const { status, output } = response.tasks[0];
   if (status == "completed") {
     const outputUrl = output.slice(-1);
     return { status, outputUrl };
-  } 
-  else if (status == "failed") {
+  } else if (status == "failed") {
     return { status, error: "Prediction failed" };
   }
   return { status };
 };
 
-export const create = async function(generatorName, config, generatorVersion=null, pollingInterval = 2000)
-{
-  let taskId = await this.startCreation(generatorName, config, generatorVersion);
-  let response = await this.getCreationStatus(taskId);
+export async function create(generatorName, config, generatorVersion=null, pollingInterval=2000) {
+  let taskId = await this.startTask(generatorName, config, generatorVersion);
+  let response = await this.getTaskStatus(taskId);
   while (
     response.status == "pending" ||
     response.status == "starting" ||
     response.status == "running"
   ) {
     await new Promise((r) => setTimeout(r, pollingInterval));
-    response = await this.getCreationStatus(taskId);
+    response = await this.getTaskStatus(taskId);
   }
   return response;
 };
 
-//export const getMyCreations() {
-  // TODO: get my creations
-//}

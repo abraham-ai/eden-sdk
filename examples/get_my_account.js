@@ -1,10 +1,11 @@
-import Eden from "../eden.js";
+import EdenClient from "../eden.js";
 
-let eden = new Eden();
+let eden = new EdenClient();
 
-let balance = await eden.getBalance();
-console.log(`Balance: ${balance}`);
+let manna = await eden.getManna();
+console.log(`My Manna: ${manna}`);
 
 let apiKeys = await eden.getApiKeys();
 console.log(apiKeys);
 
+// eden.updateProfile
