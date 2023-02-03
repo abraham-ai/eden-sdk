@@ -1,4 +1,4 @@
-import EdenClient from "../src/eden.js";
+import EdenClient from "../eden.js";
 
 let eden = new EdenClient();
 
