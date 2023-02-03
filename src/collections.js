@@ -7,6 +7,11 @@ export class Collection {
     this.baseRoute = `/collection/${this._id}`;
   }
 
+  getCreations = async function() {
+    const result = await http.get(`${this.baseRoute}/creations`);
+    return result.creations.map(creation => new Creation(creation._id));
+  }
+
   addCreation = async function(creation) {
     const result = await http.post(`${this.baseRoute}/add`, {
       creationId: creation._id
@@ -32,11 +37,6 @@ export class Collection {
   delete = async function() {
     const result = await http.post(`${this.baseRoute}/delete`);
     return result;
-  }
-  
-  getCreations = async function() {
-    const result = await http.get(`${this.baseRoute}/creations`);
-    return result.creations.map(creation => new Creation(creation._id));
   }
 };
 

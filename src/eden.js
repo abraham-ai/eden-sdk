@@ -17,16 +17,16 @@ class EdenClient {
     this.loginApi = auth.loginApi.bind(this);
     this.loginEth = auth.loginEth.bind(this);
 
-    this.getApiKeys = auth.getApiKeys.bind(this);
-    this.createNewApiKey = auth.createNewApiKey.bind(this);
-    this.deleteApiKey = auth.deleteApiKey.bind(this);
     this.getManna = auth.getManna.bind(this);
     this.getProfile = auth.getProfile.bind(this);
     this.updateProfile = auth.updateProfile.bind(this);
     this.uploadMedia = auth.uploadMedia.bind(this);
+    this.getApiKeys = auth.getApiKeys.bind(this);
+    this.createNewApiKey = auth.createNewApiKey.bind(this);
+    this.deleteApiKey = auth.deleteApiKey.bind(this);
 
-    this.getCreator = creators.getCreator.bind(this); 
     this.getCreators = creators.getCreators.bind(this);
+    this.getCreator = creators.getCreator.bind(this); 
 
     this.getCreations = creations.getCreations.bind(this);
     this.getCreation = creations.getCreation.bind(this);
@@ -47,6 +47,7 @@ class EdenClient {
     if (apiUrl) {
       http.setApiUrl(apiUrl);
     }
+    
   };
 }
 

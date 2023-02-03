@@ -20,7 +20,7 @@ console.log(result);
 
 /* Alternatively, start the prediction asynchronously and poll for the result */
 
-//let taskId = await eden.startCreation("create", config);
-//let result = await eden.getCreationStatus(taskId);
+//let taskId = await eden.startTask("create", config);
+//let result = await eden.getTaskStatus(taskId);
 //console.log(result);
 

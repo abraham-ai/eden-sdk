@@ -37,12 +37,12 @@ export class Creator {
   }  
 };
 
-export const getCreator = async function(creatorId) {
-  const result = await http.get(`/creator/${creatorId}`);
-  return new Creator(this, result.creator.user);
-}
-
 export const getCreators = async function() {
   const result = await http.post('/creators', {});
   return result.creators.map(creator => new Creator(creator));
+}
+
+export const getCreator = async function(creatorId) {
+  const result = await http.get(`/creator/${creatorId}`);
+  return new Creator(this, result.creator.user);
 }

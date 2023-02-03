@@ -1,45 +1,41 @@
 declare class Creator {
-  creationId: string;
+  baseRoute: string;
 
   constructor(
-    edenClient: any,
-    creationId: string,
+    creator: object,
   );
 
-  getFollowing(): Promise<Array[Creator]>;
-  getFollowers(): Promise<Array[Creator]>;
-  follow(): Promise<Any>;
-  unfollow(): Promise<Any>;
-  getProfile(): Promise<Creator>;
+  getFollowing(): Promise<Creator[]>;
+  getFollowers(): Promise<Creator[]>;
+  follow(): Promise<object>;
+  unfollow(): Promise<object>;
+  getProfile(): Promise<object>;
+
 };
 
 declare class Creation {
-  creationId: string;
+  baseRoute: string;
 
   constructor(
-    edenClient: any,
-    creationId: string,
+    creation: object,
   );
 
-  react(reaction: string): Promise<any>;
-  getReactions(): Promise<Array[any]>;
-  getRecreations(): Promise<Array[Creation]>;
-  getCollections(): Promise<Array[Collection]>;
+  react(reaction: string): Promise<object>;
+  getRecreations(): Promise<Creation[]>;
+  getCollections(): Promise<Collection[]>;
+  getReactions(): Promise<object[]>;
 };
 
 declare class Collection {
-  collectionId: string;
-  // creations: Creation[];
-  // createdAt: any;
+  baseRoute: string;
 
   constructor(
-    edenClient: any,
-    collectionId: string,
+    collection: object,
   );
 
   getCreations(): Promise<Creation[]>;
-  addCreation(): Promise<any>;
-  removeCreation(): Promise<any>;
+  addCreation(creation: object): Promise<any>;
+  removeCreation(creation: object): Promise<any>;
   rename(newName: string): Promise<any>;
   delete(): Promise<any>;
 };
@@ -52,41 +48,33 @@ declare class EdenClient {
     apiUrl: string | null
   );
   
-  getCollection(
-    name: any,
-  ): Promise<Collection>;
+  setAuthToken(authToken: string): void;
+  loginApi(apiKey: string, apiSecret: string): void;
+  loginEth(message: string, signature: string, address:string): Promise<string>;  
 
-  setAuthToken(
-    authToken: string,
-  ): void;
+  getManna(): Promise<object>;
+  getProfile(): Promise<object>;
+  updateProfile(update: object): Promise<object>;
+  uploadMedia(filePath: string): Promise<object>;
+  getApiKeys(): Promise<object[]>;
+  createNewApiKey(note: string): Promise<object>;
+  deleteApiKey(apiKey: string): Promise<object>;
+
+  getCreators(): Promise<Creator[]>;
+  getCreator(creatorId: string): Promise<Creator>;
   
-  loginEth(
-    message: string, 
-    signature: string, 
-    address:string,
-  ): Promise<string>;
-  
-  loginApi(
-    apiKey: string,
-    apiSecret: string,
-  ): Promise<void>;
+  getCreations(filter: object | null): Promise<Creation[]>;
+  getCreation(creationId: string): Promise<Creation>;
+  startTask(generatorName: string, config: object, generatorVersion: string | null): Promise<object>;
+  getTaskStatus(taskId: string): Promise<object>;
+  create(generatorName: string, config: object, generatorVersion: string | null): Promise<object>;
 
-  startCreation(
-    generatorName: string, 
-    config: object, 
-    generatorVersion:string
-  ): Promise<string>;
+  getCollections(userId: string | null): Promise<Collection[]>;
+  getCollection(name: any): Promise<Collection>;
+  createCollection(name: any): Promise<Collection>;
 
-  getCreationStatus(
-    taskId: string
-  ): Promise<object>;
-
-  create(
-    generatorName: string, 
-    config: object, 
-    generatorVersion: string
-  ): Promise<object>;
-
+  getGenerators(): Promise<object[]>;
+  getGenerator(generatorName: string, generatorVersion: string | null): Promise<object>;
 }
 
 export {

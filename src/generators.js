@@ -1,4 +1,3 @@
-
 export async function getGenerators() {
   const result = await this.get('/generators');
   return result.generators;
