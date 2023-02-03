@@ -1,55 +1,51 @@
+import { Collection } from "./collections.js";
+import * as http from './http.js';
+
 export class Creation {
   
-  constructor(edenClient, creationId) {
-    this.edenClient = edenClient;
-    this.creationId = creationId;
-    this.baseRoute = `/creation/${this.creationId}`;
-  }
-
-  get = async function(route, params) {
-    return await this.edenClient.get(`${this.baseRoute}${route}`, params);
-  }
-
-  post = async function(route, params) {
-    return await this.edenClient.post(`${this.baseRoute}${route}`, params);
+  constructor(creation) {
+    Object.assign(this, creation);
+    this.baseRoute = `/creation/${this._id}`;
   }
 
   react = async function(reaction) {
-    return await this.post('/react/', {reaction: reaction});
+    const result = await http.post(`${this.baseRoute}/react`, {
+      reaction: reaction
+    });
+    return result;
+  }
+
+  getRecreations = async function() {
+    const result = await http.get(`${this.baseRoute}/recreations`);
+    return result.map(creation => new Creation(creation));
+  }
+
+  getCollections = async function() {
+    const result = await http.get(`${this.baseRoute}/collections`);
+    return result.collections.map(collection => new Collection(collection.collectionId));
   }
 
   getReactions = async function() {
-    const result = await this.get('/recreations');
-    return result.map(creationId => new Creation(this.edenClient, creationId));
+    const result = await http.get(`${this.baseRoute}/reactions`);
+    return result.reactions;
   }
 
   //recreate = async function() {}
   //startRecration = async function() {}
-
-  getRecreations = async function() {
-    const result = await this.get('/recreations');
-    return result.map(creation => new Creation(this.edenClient, creation));
-  }
-
-  getCollections = async function() {
-    const result = await this.get('/collections');
-    return result.map(collection => new Collection(this.edenClient, collection));
-  }
-
 };
 
-
 export async function getCreations(filter) {
-  const result = await this.post("/creations", filter);
-  return result.map(creation => new Creation(this, creation));
+  filter = filter || {};
+  const result = await http.post("/creations", filter);
+  return result.creations.map(creation => new Creation(creation));
 };
 
 export async function getCreation(creationId) {
   if (!creationId) {
     throw new Error("Creation ID is required");
   }
-  const result = await this.get(`/creation/${creationId}`);
-  return new Creation(this, result.creation);
+  const result = await http.get(`/creation/${creationId}`);
+  return new Creation(result.creation);
 };
 
 export async function startTask(generatorName, config, generatorVersion=null) {
@@ -58,13 +54,13 @@ export async function startTask(generatorName, config, generatorVersion=null) {
     config: config,
     generatorVersion: generatorVersion,
   };
-  const result = await this.post('/user/tasks/create', request);
-  return result.taskId;
+  const result = await http.post('/user/create', request);
+  return result;
 };
 
 export async function getTaskStatus(taskId) {
   const data = { taskIds: [taskId] };
-  const response = await this.post('/user/tasks/fetch', data);
+  const response = await http.post('/user/tasks', data);
   if (!response.tasks) {
     return { status: "failed", error: "Task not found" };
   }
@@ -79,7 +75,11 @@ export async function getTaskStatus(taskId) {
 };
 
 export async function create(generatorName, config, generatorVersion=null, pollingInterval=2000) {
-  let taskId = await this.startTask(generatorName, config, generatorVersion);
+  let result = await this.startTask(generatorName, config, generatorVersion);
+  if (result.error) {
+    return result;
+  }
+  const taskId = result.taskId;
   let response = await this.getTaskStatus(taskId);
   while (
     response.status == "pending" ||

@@ -1,64 +1,61 @@
+import * as http from './http.js';
+
 export class Collection {
   
-  constructor(edenClient, collectionId) {
-    this.edenClient = edenClient;
-    this.collectionId = collectionId;
-    this.baseRoute = `/collection/${this.collectionId}`;
+  constructor(collection) {
+    Object.assign(this, collection);
+    this.baseRoute = `/collection/${this._id}`;
   }
 
-  get = async function(route, params) {
-    return await this.edenClient.get(`${this.baseRoute}${route}`, params);
-  }
-
-  post = async function(route, params) {
-    return await this.edenClient.post(`${this.baseRoute}${route}`, params);
-  }
-
-  addCreation = async function(creationId) {
-    const result = await this.post('/add', {
-      creationId: creationId
+  addCreation = async function(creation) {
+    const result = await http.post(`${this.baseRoute}/add`, {
+      creationId: creation._id
     });
+    console.log(result);
     return result;
   }
 
-  removeCreation = async function(creationId) {
-    const result = await this.post('/remove', {
-      creationId: creationId
+  removeCreation = async function(creation) {
+    const result = await http.post(`${this.baseRoute}/remove`, {
+      creationId: creation._id
     });
     return result;
   }
 
   rename = async function(newName) {
-    const result = await this.post('/rename', {
+    const result = await http.post(`${this.baseRoute}/rename`, {
       name: newName
     });
     return result;
   }
 
   delete = async function() {
-    const result = await this.post('/delete');
+    const result = await http.post(`${this.baseRoute}/delete`);
     return result;
   }
   
   getCreations = async function() {
-    const result = await this.get('/creations');
-    return result.map(creation => new Creation(this.edenClient, creation));
+    const result = await http.get(`${this.baseRoute}/creations`);
+    return result.creations.map(creation => new Creation(creation._id));
   }
-
 };
 
 export async function getCollections(userId) {
-  const result = await this.get('/collections', {userId: userId});
-  return result.map(collection => new Collection(this, collection));  
+  const result = await http.get('/collections', {
+    userId: userId
+  });
+  return result.collections.map(collection => new Collection(collection));  
 }
 
 export async function getCollection(collectionId) {
-  const result = await this.get(`/collection/${collectionId}`);
-  return new Collection(this, result.collection);
+  const result = await http.get(`/collection/${collectionId}`);
+  return new Collection(result.collection);
 }
 
 export async function createCollection(name) {
-  const result = await this.post('/collections/create', {name: name});
-  return new Collection(this, result.collection);
+  const result = await http.post('/collections/create', {
+    name: name
+  });
+  return new Collection(result.collection);
 }
 
