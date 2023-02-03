@@ -1,5 +1,5 @@
 import { Collection } from "./collections.js";
-import * as http from './src/http.js';
+import * as http from './http.js';
 
 export class Creation {
   

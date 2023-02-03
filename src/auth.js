@@ -1,7 +1,7 @@
 import fs from 'fs/promises'
 import FormData from 'form-data';
 
-import * as http from './src/http.js';
+import * as http from './http.js';
 
 export function setAuthToken(authToken) {
   http.setHeader({

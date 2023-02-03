@@ -1,9 +1,9 @@
-import * as http from './src/http.js';
-import * as auth from './src/auth.js';
-import * as creators from './src/creators.js';
-import * as creations from './src/creations.js';
-import * as collections from './src/collections.js';
-import * as generators from './src/generators.js';
+import * as http from './http.js';
+import * as auth from './auth.js';
+import * as creators from './creators.js';
+import * as creations from './creations.js';
+import * as collections from './collections.js';
+import * as generators from './generators.js';
 
 
 class EdenClient {
