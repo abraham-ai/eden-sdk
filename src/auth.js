@@ -4,7 +4,7 @@ import FormData from 'form-data';
 import * as http from './http.js';
 
 export function setAuthToken(authToken) {
-  http.setHeader({
+  http.setHeaders({
     Authorization: `Bearer ${authToken}`,
   });
 };

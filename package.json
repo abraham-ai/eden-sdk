@@ -1,8 +1,8 @@
 {
   "name": "eden-sdk",
-  "version": "0.1.20",
+  "version": "0.1.22",
   "description": "SDK for interacting with Eden.art",
-  "main": "eden.js",
+  "main": "src/eden.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
