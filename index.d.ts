@@ -39,12 +39,17 @@ declare class Collection {
   delete(): Promise<any>;
 };
 
+interface CreateResult {
+  error: string | null;
+  creation: Creation | null; 
+}
+
 declare class EdenClient {
 
   constructor(
-    apiKey?: string, 
-    apiSecret?: string, 
-    apiUrl?: string,
+    apiKey?: string | null, 
+    apiSecret?: string | null, 
+    apiUrl?: string | null,
   );
   
   setAuthToken(authToken: string): void;
@@ -64,16 +69,16 @@ declare class EdenClient {
   
   getCreations(filter: object | null): Promise<Creation[]>;
   getCreation(creationId: string): Promise<Creation>;
-  startTask(generatorName: string, config: object, generatorVersion: string | null): Promise<object>;
+  startTask(generatorName: string, config: object, generatorVersion?: string): Promise<CreateResult>;
   getTaskStatus(taskId: string): Promise<object>;
-  create(generatorName: string, config: object, generatorVersion: string | null): Promise<object>;
+  create(generatorName: string, config: object, generatorVersion?: string): Promise<CreateResult>;
 
   getCollections(userId: string | null): Promise<Collection[]>;
   getCollection(name: any): Promise<Collection>;
   createCollection(name: any): Promise<Collection>;
 
   getGenerators(): Promise<object[]>;
-  getGenerator(generatorName: string, generatorVersion: string | null): Promise<object>;
+  getGenerator(generatorName: string, generatorVersion?: string): Promise<object>;
 }
 
 export {
