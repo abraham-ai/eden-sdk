@@ -10,7 +10,6 @@ declare class Creator {
   follow(): Promise<object>;
   unfollow(): Promise<object>;
   getProfile(): Promise<object>;
-
 };
 
 declare class Creation {
@@ -43,9 +42,9 @@ declare class Collection {
 declare class EdenClient {
 
   constructor(
-    apiKey: string | null, 
-    apiSecret: string | null, 
-    apiUrl: string | null
+    apiKey?: string, 
+    apiSecret?: string, 
+    apiUrl?: string,
   );
   
   setAuthToken(authToken: string): void;
