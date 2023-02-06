@@ -15,8 +15,8 @@ let followers = await creator.getFollowers();
 console.log(following)
 console.log(followers)
 
-let myId = await eden.getId();
-let myCreator = await eden.getCreator(myId);
+// todo: this probably doesn't work yet
+let myCreator = await eden.getProfile();
 
 let myFollowing = await myCreator.getFollowing();
 let myFollowers = await myCreator.getFollowers();

@@ -4,9 +4,10 @@ let eden = new EdenClient();
 
 // filter fields are all optional
 let filter = {
-  // creatorId: "63d1df819dd04b6c6cd62f77", //63d069ce1d6d1dc0c50f308a
+  username: "0x8566a0048b555BCd51E0a58C7391Fd594E92e545", //63dc34966c2eb37038a1c532  
+  // collectionId: "63dc46c15fe0afaf616c85b0",  // still needs to be done
   earliestTime: Date.parse("1/25/2023 13:01"),
-  latestTime: Date.parse("2/1/2024 5:02"),
+  latestTime: Date.parse("2/6/2024 5:02"),
   limit: 50,
 }
 
@@ -18,6 +19,6 @@ for (let creation of result) {
 }
 
 // look up an individual creation
-const creationId = '63d21cf9d9c66aac2a2dd6ab';
+const creationId = '63dc3f4f136f1ba56e295940';
 const creation = await eden.getCreation(creationId);
 console.log(creation);

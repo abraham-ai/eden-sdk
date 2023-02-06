@@ -13,11 +13,8 @@ let collection = collections[2];
 let creations = await eden.getCreations();
 let creation = creations[4];
 
-
 // await collection.addCreation(creation);
 // await collection.removeCreation(creation);
-
-
 
 let creators = await eden.getCreators();
 let creator = creators[0];
