@@ -51,4 +51,9 @@ class EdenClient {
   };
 }
 
-export default EdenClient;
+export {
+  Creator,
+  Creation,
+  Collection,
+  EdenClient,
+}
