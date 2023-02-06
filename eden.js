@@ -5,6 +5,10 @@ import * as creations from './creations.js';
 import * as collections from './collections.js';
 import * as generators from './generators.js';
 
+import { Creator } from './creators.js';
+import { Creation } from './creations.js';
+import { Collection } from './collections.js';
+
 
 class EdenClient {
 
