@@ -64,14 +64,9 @@ export async function getTaskStatus(taskId) {
   if (!response.tasks) {
     return { status: "failed", error: "Task not found" };
   }
-  const { status, output } = response.tasks[0];
-  if (status == "completed") {
-    const outputUrl = output.slice(-1);
-    return { status, outputUrl };
-  } else if (status == "failed") {
-    return { status, error: "Prediction failed" };
-  }
-  return { status };
+  const task = response.tasks[0];
+  const { status } = task;
+  return { status, task };
 };
 
 export async function create(generatorName, config, generatorVersion=null, pollingInterval=2000) {

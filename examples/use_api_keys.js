@@ -6,6 +6,7 @@ eden.setAuthToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2RiZThl
 let result = await eden.getApiKeys();
 console.log(result.apiKeys);
 
+
 result = await eden.createNewApiKey("test key");
 console.log(result);
 
