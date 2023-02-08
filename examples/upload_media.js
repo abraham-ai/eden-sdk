@@ -6,5 +6,5 @@ eden.loginApi(
   "de47cacca653a7333dac979b06426e8b251000e5eca18274"
 )
 
-let result = await eden.uploadMedia("test.jpg");
+let result = await eden.uploadFile("assets/test.jpg");
 console.log(result);

@@ -24,7 +24,8 @@ class EdenClient {
     this.getManna = auth.getManna.bind(this);
     this.getProfile = auth.getProfile.bind(this);
     this.updateProfile = auth.updateProfile.bind(this);
-    this.uploadMedia = auth.uploadMedia.bind(this);
+    this.uploadFile = auth.uploadFile.bind(this);
+    this.uploadFiles = auth.uploadFiles.bind(this);
     this.getApiKeys = auth.getApiKeys.bind(this);
     this.createNewApiKey = auth.createNewApiKey.bind(this);
     this.deleteApiKey = auth.deleteApiKey.bind(this);

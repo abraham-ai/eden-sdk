@@ -39,7 +39,7 @@ export async function updateProfile(update) {
   return result;
 };
 
-export async function uploadMedia(filePath) {
+export async function uploadFile(filePath) {
   const media = await fs.readFile(filePath);
   const form = new FormData();
   form.append('media', media);
@@ -49,6 +49,15 @@ export async function uploadMedia(filePath) {
     {...form.getHeaders(), ...http.getHeaders()},
   );
   return result;
+};
+
+export async function uploadFiles(filePaths) {
+  let file_urls = [];
+  for (let i = 0; i < filePaths.length; i++) {
+    const result = await uploadFile(filePaths[i]);
+    file_urls.push(result.url);
+  }
+  return file_urls;
 };
 
 export const getApiKeys = async function() {
