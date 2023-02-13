@@ -3,8 +3,8 @@ import {EdenClient} from "eden-sdk";
 const eden = new EdenClient();
 
 eden.loginApi(
-  "4a5c24e304f959bcabcf7464a5754c644358a39c56f5604b",
-  "de47cacca653a7333dac979b06426e8b251000e5eca18274"
+  "26c71dbb6b41568e952ee524b6648f3423a80b80",
+  "85a75527169427b0d2b7bf02cf973bb2e1595986"
 )
 
 let result = await eden.uploadFile("assets/test.jpg");
