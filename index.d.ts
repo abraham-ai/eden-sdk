@@ -54,7 +54,7 @@ declare class EdenClient {
   getManna(): Promise<any>;
   getProfile(): Promise<any>;
   updateProfile(update: any): Promise<any>;
-  uploadMedia(filePath: string): Promise<any>;
+  uploadFile(filePath: string): Promise<any>;
   getApiKeys(): Promise<any>;
   createNewApiKey(note: string): Promise<any>;
   deleteApiKey(apiKey: string): Promise<any>;

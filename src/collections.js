@@ -16,7 +16,6 @@ export class Collection {
     const result = await http.post(`${this.baseRoute}/add`, {
       creationId: creation._id
     });
-    console.log(result);
     return result;
   }
 

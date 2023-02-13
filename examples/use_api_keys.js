@@ -1,14 +1,18 @@
-import EdenClient from "../eden.js";
+import {EdenClient} from "eden-sdk";
 
-let eden = new EdenClient();
-eden.setAuthToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2RiZThlYTRhOGFlYzlhMTEyNzU1Y2IiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjc1MzU3NTkxfQ.X2xmUJdj1JHkGNPeQ9LBHPTXQ6IeXUvL5-l-ac8bwBc')
+const eden = new EdenClient();
 
-let result = await eden.getApiKeys();
-console.log(result.apiKeys);
+eden.loginApi(
+  "922679332fbc0f7823c93a276eae003c79baa1d8",
+  "22cea409815a4d90701cfaf01defcd91d71f3ace"
+);
 
-
-result = await eden.createNewApiKey("test key");
+let result = await eden.createNewApiKey("test key");
 console.log(result);
 
-result = await eden.deleteApiKey("13ec7816ef340a4a1c1b81f1a3184e4397e3202d");
+result = await eden.getApiKeys();
+console.log(result);
+
+const keyToDelete = result.apiKeys[0];
+result = await eden.deleteApiKey(keyToDelete.apiKey);
 console.log(result);

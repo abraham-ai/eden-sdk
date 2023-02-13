@@ -1,7 +1,11 @@
-import EdenClient from "../eden.js";
+import {EdenClient} from "eden-sdk";
 
-let eden = new EdenClient();
-eden.setAuthToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2RiZThlYTRhOGFlYzlhMTEyNzU1Y2IiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjc1MzU3NTkxfQ.X2xmUJdj1JHkGNPeQ9LBHPTXQ6IeXUvL5-l-ac8bwBc')
+const eden = new EdenClient();
+
+eden.loginApi(
+  "26c71dbb6b41568e952ee524b6648f3423a80b80",
+  "85a75527169427b0d2b7bf02cf973bb2e1595986"
+);
 
 let result = await eden.getProfile();
 console.log(result);

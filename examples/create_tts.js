@@ -1,11 +1,11 @@
-import {EdenClient} from "../eden.js";
+import {EdenClient} from "eden-sdk";
 
-let eden = new EdenClient();
+const eden = new EdenClient();
 
 eden.loginApi(
-  "admin",
-  "admin"
-)
+  "26c71dbb6b41568e952ee524b6648f3423a80b80",
+  "85a75527169427b0d2b7bf02cf973bb2e1595986"
+);
 
 let voice_files = [
   "assets/voice1.wav", 
@@ -16,7 +16,7 @@ let voice_files = [
 const voice_file_urls = await eden.uploadFiles(voice_files);
 
 let config = {
-  text: "This can sometimes take around 3 minutes while the model boots up. If you'd like to find out more about why this happens, take a look at the section on cold boots of our guide on how Replicate works.",
+  text: "The world is truly a beautiful place.",
   voice: "clone",
   voice_file_urls: voice_file_urls,
   preset: "fast",

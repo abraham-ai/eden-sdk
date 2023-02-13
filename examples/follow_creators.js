@@ -1,25 +1,22 @@
-import EdenClient from "../eden.js";
+import {EdenClient} from "eden-sdk";
 
-let eden = new EdenClient();
+const eden = new EdenClient();
 
-let creator = await eden.getCreator("63d1df819dd04b6c6cd62f77");
+eden.loginApi(
+  "4a5c24e304f959bcabcf7464a5754c644358a39c56f5604b",
+  "de47cacca653a7333dac979b06426e8b251000e5eca18274"
+);
 
-//console.log(creator.profile)
+let creators = await eden.getCreators();
+let creator = creators[1];
 
-let result = await eden.follow(creator);
-console.log(result)
+let result = await creator.follow();
+console.log(result);
+
+result = await creator.unfollow();
+console.log(result);
 
 let following = await creator.getFollowing();
 let followers = await creator.getFollowers();
-
-console.log(following)
-console.log(followers)
-
-// todo: this probably doesn't work yet
-let myCreator = await eden.getProfile();
-
-let myFollowing = await myCreator.getFollowing();
-let myFollowers = await myCreator.getFollowers();
-
-console.log("Following:", myFollowing);
-console.log("Followers:", myFollowers);
+console.log(following);
+console.log(followers);
