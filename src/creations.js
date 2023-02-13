@@ -92,7 +92,7 @@ export async function create(generatorName, config, generatorVersion=null, polli
     process.stdout.cursorTo(0);
     process.stdout.write(`${progressFrames[idx++ % progressFrames.length]} ${taskId} ${response.status}`);
   }
-  if (response.task.creation) {
+  if (response.task && response.task.creation) {
     const creation = getCreation(response.task.creation);
     return creation;
   };
