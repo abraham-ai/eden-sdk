@@ -42,7 +42,7 @@ export const getCreators = async function() {
   return result.creators.map(creator => new Creator(creator));
 }
 
-export const getCreator = async function(creatorId) {
-  const result = await http.get(`/creator/${creatorId}`);
-  return new Creator(this, result.creator.user);
+export const getCreator = async function(username) {
+  const result = await http.get(`/creator/${username}`);
+  return new Creator(result.creator);
 }

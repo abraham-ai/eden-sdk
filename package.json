@@ -1,8 +1,8 @@
 {
   "name": "eden-sdk",
-  "version": "0.2.4",
+  "version": "0.2.10",
   "description": "SDK for interacting with Eden.art",
-  "main": "eden.js",
+  "main": "src/eden.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,7 +20,8 @@
   "dependencies": {
     "axios": "^1.2.4",
     "dotenv": "^16.0.3",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "log-update": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

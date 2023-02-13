@@ -1,5 +1,9 @@
 import { Collection } from "./collections.js";
 import * as http from './http.js';
+import logUpdate from 'log-update';
+
+const progressFrames = ['-', '\\', '|', '/'];
+  
 
 export class Creation {
   
@@ -75,7 +79,9 @@ export async function create(generatorName, config, generatorVersion=null, polli
     return result;
   }
   const taskId = result.taskId;
+  console.log(`Starting task ${taskId}...`)
   let response = await this.getTaskStatus(taskId);
+  let idx = 0;
   while (
     response.status == "pending" ||
     response.status == "starting" ||
@@ -83,7 +89,14 @@ export async function create(generatorName, config, generatorVersion=null, polli
   ) {
     await new Promise((r) => setTimeout(r, pollingInterval));
     response = await this.getTaskStatus(taskId);
+    logUpdate(`${progressFrames[idx++ % progressFrames.length]} ${taskId} ${response.status}`);
   }
+  console.log("response")
+  console.log(response)
+  if (response.task && response.task.creation) {
+    const creation = getCreation(response.task.creation);
+    return creation;
+  };
   return response;
 };
 
