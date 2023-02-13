@@ -1,5 +1,6 @@
 import { Collection } from "./collections.js";
 import * as http from './http.js';
+import logUpdate from 'log-update';
 
 const progressFrames = ['-', '\\', '|', '/'];
   
@@ -88,9 +89,7 @@ export async function create(generatorName, config, generatorVersion=null, polli
   ) {
     await new Promise((r) => setTimeout(r, pollingInterval));
     response = await this.getTaskStatus(taskId);
-    process.stdout.clearLine();
-    process.stdout.cursorTo(0);
-    process.stdout.write(`${progressFrames[idx++ % progressFrames.length]} ${taskId} ${response.status}`);
+    logUpdate(`${progressFrames[idx++ % progressFrames.length]} ${taskId} ${response.status}`);
   }
   console.log("response")
   console.log(response)
