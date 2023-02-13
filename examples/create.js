@@ -20,8 +20,8 @@ let result = await eden.create("create", config);
 
 console.log(result);
 
-console.log(result.task.output);
-console.log(result.task.output[0]);
+// console.log(result.task.output);
+// console.log(result.task.output[0]);
 
 manna = await eden.getManna();
 console.log(manna);

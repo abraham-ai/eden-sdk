@@ -41,19 +41,12 @@ export async function updateProfile(update) {
 
 export async function uploadFile(filePath) {
   const media = await fs.readFile(filePath);
-  const fileType = filePath.split('.').pop();
   const form = new FormData();
   form.append('media', media);
-  const headers = {
-    ...http.getHeaders(),
-    ...form.getHeaders(),
-    fileType: fileType, 
-  }
-  const result = http.post(
-    '/media/upload', 
-    form,
-    headers,
-  );
+  const fileType = filePath.split('.').pop() || "txt";
+  const route = `/media/upload?fileType=${fileType}`
+  const headers = {...http.getHeaders(), ...form.getHeaders()};
+  const result = http.post(route, form, headers);
   return result;
 };
 
