@@ -89,7 +89,7 @@ export async function create(generatorName, config, generatorVersion=null, polli
   ) {
     await new Promise((r) => setTimeout(r, pollingInterval));
     response = await this.getTaskStatus(taskId);
-    logUpdate(`${progressFrames[idx++ % progressFrames.length]} ${taskId} ${response.status}`);
+    logUpdate(`${progressFrames[idx++ % progressFrames.length]} Task: ${taskId} \tStatus: ${response.status} \tProgress: ${response.task.progress}`);
   }
   console.log("response")
   console.log(response)
