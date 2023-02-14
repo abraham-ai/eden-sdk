@@ -66,7 +66,7 @@ export async function getTaskStatus(taskId) {
   const data = { taskIds: [taskId] };
   const response = await http.post('/user/tasks', data);
   if (!response.tasks) {
-    return { status: "failed", error: "Task not found" };
+    return { status: "failed", error: `Task ${taskId} not found` };
   }
   const task = response.tasks[0];
   const { status } = task;

@@ -12,6 +12,10 @@ export async function getGenerator(generatorName, generatorVersion=null) {
 
   const generator = result.generator;
 
+  if (!generator) {
+    throw new Error(`Generator ${generatorName} not found`);
+  }
+
   if (generatorVersion) {
     const version = generator.versions.filter(
       (obj) => {return obj.versionId === generatorVersion}
