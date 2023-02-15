@@ -47,7 +47,7 @@ class EdenClient {
     this.getGenerator = generators.getGenerator.bind(this);
 
     if (apiKey && apiSecret) {
-      http.loginApi(apiKey, apiSecret);
+      auth.loginApi(apiKey, apiSecret);
     }
     if (apiUrl) {
       http.setApiUrl(apiUrl);

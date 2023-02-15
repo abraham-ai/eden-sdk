@@ -43,8 +43,6 @@ export async function uploadFile(filePath) {
   const media = await fs.readFile(filePath);
   const form = new FormData();
   form.append('media', media);
-  //const fileType = filePath.split('.').pop() || "txt";
-  //const route = `/media/upload?fileType=${fileType}`
   const route = `/media/upload`
   const headers = {...http.getHeaders(), ...form.getHeaders()};
   const result = http.post(route, form, headers);
