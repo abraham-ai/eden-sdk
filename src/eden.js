@@ -37,6 +37,7 @@ class EdenClient {
     this.getCreation = creations.getCreation.bind(this);
     this.startTask = creations.startTask.bind(this);
     this.getTaskStatus = creations.getTaskStatus.bind(this);
+    this.getTasks = creations.getTasks.bind(this);
     this.create = creations.create.bind(this);
 
     this.getCollections = collections.getCollections.bind(this);
@@ -46,13 +47,8 @@ class EdenClient {
     this.getGenerators = generators.getGenerators.bind(this);
     this.getGenerator = generators.getGenerator.bind(this);
 
-    if (apiKey && apiSecret) {
-      auth.loginApi(apiKey, apiSecret);
-    }
-    if (apiUrl) {
-      http.setApiUrl(apiUrl);
-    }
-    
+    http.setApiUrl(apiUrl);    
+    http.setApiKey(apiKey, apiSecret);    
   };
 }
 

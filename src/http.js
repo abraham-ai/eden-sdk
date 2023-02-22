@@ -18,12 +18,15 @@ let EDEN_API_SECRET = process.env.EDEN_API_SECRET
 let HEADERS = {};
 
 export function setApiUrl(url) {
-  EDEN_API_URL = url;
+  EDEN_API_URL = url || EDEN_API_URL;
 }
 
 export function setApiKey(apiKey, apiSecret) {
-  EDEN_API_KEY = apiKey;
-  EDEN_API_SECRET = apiSecret;
+  EDEN_API_KEY = apiKey || EDEN_API_KEY;
+  EDEN_API_SECRET = apiSecret || EDEN_API_SECRET;
+  if (!EDEN_API_KEY || !EDEN_API_SECRET) {
+    return;
+  }
   setHeaders({
     'x-api-key': EDEN_API_KEY,
     'x-api-secret': EDEN_API_SECRET,

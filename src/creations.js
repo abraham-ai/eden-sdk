@@ -62,6 +62,12 @@ export async function startTask(generatorName, config, generatorVersion=null) {
   return result;
 };
 
+export async function getTasks(status) {
+  const data = { status: status };
+  const result = await http.post('/user/tasks', data);
+  return result;
+};
+
 export async function getTaskStatus(taskId) {
   const data = { taskIds: [taskId] };
   const response = await http.post('/user/tasks', data);

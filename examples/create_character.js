@@ -2,11 +2,6 @@ import {EdenClient} from "eden-sdk";
 
 const eden = new EdenClient();
 
-eden.loginApi(
-  "admin",
-  "admin"
-);
-
 // all the settings here
 const prompt = "What is the meaning of life? I think it can be seen as a"
 const face_url = "https://i.imgur.com/NUr0Lhb.jpg"

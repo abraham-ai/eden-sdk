@@ -65,6 +65,7 @@ declare class EdenClient {
   getCreations(filter: any | null): Promise<Creation[]>;
   getCreation(creationId: string): Promise<Creation>;
   startTask(generatorName: string, config: any, generatorVersion?: string): Promise<any>;
+  getTasks(status?: string): Promise<any>;
   getTaskStatus(taskId: string): Promise<any>;
   create(generatorName: string, config: any, generatorVersion?: string): Promise<any>;
 
