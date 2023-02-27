@@ -39,6 +39,16 @@ declare class Collection {
   delete(): Promise<any>;
 };
 
+
+declare class Lora {
+  baseRoute: string;
+
+  constructor(
+    lora: any,
+  );
+};
+
+
 declare class EdenClient {
 
   constructor(
@@ -73,6 +83,9 @@ declare class EdenClient {
   getCollection(name: any): Promise<Collection>;
   createCollection(name: any): Promise<Collection>;
 
+  getLoras(userId: string | null): Promise<Lora[]>;
+  getLora(name: any): Promise<Lora>;
+
   getGenerators(): Promise<any>;
   getGenerator(generatorName: string, generatorVersion?: string): Promise<any>;
 }
@@ -81,5 +94,6 @@ export {
   Creator,
   Creation,
   Collection,
+  Lora,
   EdenClient,
 }

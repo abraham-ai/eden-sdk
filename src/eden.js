@@ -3,11 +3,13 @@ import * as auth from './auth.js';
 import * as creators from './creators.js';
 import * as creations from './creations.js';
 import * as collections from './collections.js';
+import * as loras from './loras.js';
 import * as generators from './generators.js';
 
 import { Creator } from './creators.js';
 import { Creation } from './creations.js';
 import { Collection } from './collections.js';
+import { Lora } from './loras.js';
 
 
 class EdenClient {
@@ -44,6 +46,9 @@ class EdenClient {
     this.getCollection = collections.getCollection.bind(this);
     this.createCollection = collections.createCollection.bind(this);
 
+    this.getLoras = loras.getLoras.bind(this);
+    this.getLora = loras.getLora.bind(this);
+
     this.getGenerators = generators.getGenerators.bind(this);
     this.getGenerator = generators.getGenerator.bind(this);
 
@@ -56,5 +61,6 @@ export {
   Creator,
   Creation,
   Collection,
+  Lora,
   EdenClient,
 }
