@@ -1,6 +1,6 @@
 {
   "name": "eden-sdk",
-  "version": "0.2.16",
+  "version": "0.2.18",
   "description": "SDK for interacting with Eden.art",
   "main": "src/eden.js",
   "type": "module",
