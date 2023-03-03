@@ -10,7 +10,7 @@ console.log(creation);
 let result = await creation.react("👍");
 console.log(result);
 
-let reactions = await creation.getReactions();
+let reactions = await creation.getReactions(["👍", "🔥"]);
 console.log(reactions);
 
 let collections = await creation.getCollections();

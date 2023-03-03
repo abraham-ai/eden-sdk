@@ -29,8 +29,10 @@ export class Creation {
     return result.collections.map(collection => new Collection(collection.collectionId));
   }
 
-  getReactions = async function() {
-    const result = await http.get(`${this.baseRoute}/reactions`);
+  getReactions = async function(reactions) {
+    const filter = reactions ? { reactions: reactions } : {};
+    console.log("FILTER",   filter)
+    const result = await http.post(`${this.baseRoute}/reactions`, filter);
     return result.reactions;
   }
 
