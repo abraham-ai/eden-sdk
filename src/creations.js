@@ -62,9 +62,9 @@ export async function startTask(generatorName, config, generatorVersion=null) {
   return result;
 };
 
-export async function getTasks(status) {
-  const data = { status: status };
-  const result = await http.post('/user/tasks', data);
+export async function getTasks(filter) {
+  filter = filter || {};
+  const result = await http.post('/user/tasks', filter);
   return result;
 };
 
@@ -97,8 +97,6 @@ export async function create(generatorName, config, generatorVersion=null, polli
     response = await this.getTaskStatus(taskId);
     logUpdate(`${progressFrames[idx++ % progressFrames.length]} Task: ${taskId} \tStatus: ${response.status} \tProgress: ${response.task.progress}`);
   }
-  console.log("response")
-  console.log(response)
   if (response.task && response.task.creation) {
     const creation = getCreation(response.task.creation);
     return creation;
