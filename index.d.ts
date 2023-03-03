@@ -22,7 +22,7 @@ declare class Creation {
   react(reaction: string): Promise<any>;
   getRecreations(): Promise<Creation[]>;
   getCollections(): Promise<Collection[]>;
-  getReactions(): Promise<any[]>;
+  getReactions(reactions: string[] | null): Promise<any[]>;
 };
 
 declare class Collection {
