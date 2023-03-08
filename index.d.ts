@@ -83,7 +83,7 @@ declare class EdenClient {
   getCollection(name: any): Promise<Collection>;
   createCollection(name: any): Promise<Collection>;
 
-  getLoras(userId: string | null): Promise<Lora[]>;
+  getLoras(username?: string | null): Promise<Lora[]>;
   getLora(name: any): Promise<Lora>;
 
   getGenerators(): Promise<any>;
