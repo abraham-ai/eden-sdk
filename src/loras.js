@@ -11,7 +11,6 @@ export class Lora {
 
 export async function getLoras(username=null) {
   const route = username ? `/loras?username=${username}` : '/loras';
-  console.log(route)
   const result = await http.get(route);
   return result.loras.map(lora => new Lora(lora));  
 }
