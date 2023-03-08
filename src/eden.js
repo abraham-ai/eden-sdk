@@ -14,8 +14,7 @@ import { Lora } from './loras.js';
 
 class EdenClient {
 
-  constructor(apiKey=null, apiSecret=null, apiUrl=null) {
-    
+  constructor(apiKey=null, apiSecret=null, apiUrl=null) {    
     this.post = http.post.bind(this);
     this.get = http.get.bind(this);
 
@@ -54,7 +53,8 @@ class EdenClient {
 
     http.setApiUrl(apiUrl);    
     http.setApiKey(apiKey, apiSecret);    
-  };
+  }
+
 }
 
 export {

@@ -31,13 +31,10 @@ export class Creation {
 
   getReactions = async function(reactions) {
     const filter = reactions ? { reactions: reactions } : {};
-    console.log("FILTER",   filter)
     const result = await http.post(`${this.baseRoute}/reactions`, filter);
     return result.reactions;
   }
 
-  //recreate = async function() {}
-  //startRecration = async function() {}
 };
 
 export async function getCreations(filter) {
@@ -97,7 +94,7 @@ export async function create(generatorName, config, generatorVersion=null, polli
   ) {
     await new Promise((r) => setTimeout(r, pollingInterval));
     response = await this.getTaskStatus(taskId);
-    logUpdate(`${progressFrames[idx++ % progressFrames.length]} Task: ${taskId} \tStatus: ${response.status} \tProgress: ${response.task.progress}`);
+    logUpdate(`${progressFrames[idx++ % progressFrames.length]} Task: ${taskId} \tStatus: ${response.status} \tProgress: ${response.task?.progress}`);
   }
   if (response.task && response.task.creation) {
     const creation = getCreation(response.task.creation);
