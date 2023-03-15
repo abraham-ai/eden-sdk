@@ -26,7 +26,10 @@ export async function getGenerator(generatorName, generatorVersion=null) {
       throw new Error(`Generator ${generatorName} version ${generatorVersion} not found`);
     }
   } else {
-    const latestVersion = generator.versions.pop();
+    let latestVersion = generator.versions.pop();
+    latestVersion.output = generator.output;
+    latestVersion.generatorName = generator.generatorName;
+    latestVersion.description = generator.description;
     return latestVersion;
   }
 };
