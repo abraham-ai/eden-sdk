@@ -65,6 +65,7 @@ declare class EdenClient {
   getProfile(): Promise<any>;
   updateProfile(update: any): Promise<any>;
   uploadFile(filePath: string): Promise<any>;
+  uploadFiles(filePaths: string[]): Promise<any>;
   getApiKeys(): Promise<any>;
   createNewApiKey(note: string): Promise<any>;
   deleteApiKey(apiKey: string): Promise<any>;
