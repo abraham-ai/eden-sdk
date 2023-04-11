@@ -12,6 +12,10 @@ export async function getGenerator(generatorName, generatorVersion=null) {
 
   const generator = result.generator;
 
+  if (!generator) {
+    throw new Error(`Generator ${generatorName} not found`);
+  }
+
   if (generatorVersion) {
     const version = generator.versions.filter(
       (obj) => {return obj.versionId === generatorVersion}
@@ -22,7 +26,10 @@ export async function getGenerator(generatorName, generatorVersion=null) {
       throw new Error(`Generator ${generatorName} version ${generatorVersion} not found`);
     }
   } else {
-    const latestVersion = generator.versions.pop();
+    let latestVersion = generator.versions.pop();
+    latestVersion.output = generator.output;
+    latestVersion.generatorName = generator.generatorName;
+    latestVersion.description = generator.description;
     return latestVersion;
   }
 };

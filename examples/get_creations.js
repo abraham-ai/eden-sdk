@@ -20,8 +20,6 @@ let result = await eden.getCreations(filter);
 // }
 
 console.log(result);
-
-
 console.log(result.length);
 
 // look up an individual creation

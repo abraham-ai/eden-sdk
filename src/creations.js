@@ -29,13 +29,12 @@ export class Creation {
     return result.collections.map(collection => new Collection(collection.collectionId));
   }
 
-  getReactions = async function() {
-    const result = await http.get(`${this.baseRoute}/reactions`);
+  getReactions = async function(reactions) {
+    const filter = reactions ? { reactions: reactions } : {};
+    const result = await http.post(`${this.baseRoute}/reactions`, filter);
     return result.reactions;
   }
 
-  //recreate = async function() {}
-  //startRecration = async function() {}
 };
 
 export async function getCreations(filter) {
@@ -62,11 +61,17 @@ export async function startTask(generatorName, config, generatorVersion=null) {
   return result;
 };
 
+export async function getTasks(filter) {
+  filter = filter || {};
+  const result = await http.post('/user/tasks', filter);
+  return result;
+};
+
 export async function getTaskStatus(taskId) {
   const data = { taskIds: [taskId] };
   const response = await http.post('/user/tasks', data);
   if (!response.tasks) {
-    return { status: "failed", error: "Task not found" };
+    return { status: "failed", error: `Task ${taskId} not found` };
   }
   const task = response.tasks[0];
   const { status } = task;
@@ -89,10 +94,8 @@ export async function create(generatorName, config, generatorVersion=null, polli
   ) {
     await new Promise((r) => setTimeout(r, pollingInterval));
     response = await this.getTaskStatus(taskId);
-    logUpdate(`${progressFrames[idx++ % progressFrames.length]} ${taskId} ${response.status}`);
+    logUpdate(`${progressFrames[idx++ % progressFrames.length]} Task: ${taskId} \tStatus: ${response.status} \tProgress: ${response.task?.progress}`);
   }
-  console.log("response")
-  console.log(response)
   if (response.task && response.task.creation) {
     const creation = getCreation(response.task.creation);
     return creation;

@@ -22,7 +22,7 @@ declare class Creation {
   react(reaction: string): Promise<any>;
   getRecreations(): Promise<Creation[]>;
   getCollections(): Promise<Collection[]>;
-  getReactions(): Promise<any[]>;
+  getReactions(reactions: string[] | null): Promise<any[]>;
 };
 
 declare class Collection {
@@ -38,6 +38,16 @@ declare class Collection {
   rename(newName: string): Promise<any>;
   delete(): Promise<any>;
 };
+
+
+declare class Lora {
+  baseRoute: string;
+
+  constructor(
+    lora: any,
+  );
+};
+
 
 declare class EdenClient {
 
@@ -55,6 +65,7 @@ declare class EdenClient {
   getProfile(): Promise<any>;
   updateProfile(update: any): Promise<any>;
   uploadFile(filePath: string): Promise<any>;
+  uploadFiles(filePaths: string[]): Promise<any>;
   getApiKeys(): Promise<any>;
   createNewApiKey(note: string): Promise<any>;
   deleteApiKey(apiKey: string): Promise<any>;
@@ -65,12 +76,16 @@ declare class EdenClient {
   getCreations(filter: any | null): Promise<Creation[]>;
   getCreation(creationId: string): Promise<Creation>;
   startTask(generatorName: string, config: any, generatorVersion?: string): Promise<any>;
+  getTasks(filter: any | null): Promise<any>;
   getTaskStatus(taskId: string): Promise<any>;
   create(generatorName: string, config: any, generatorVersion?: string): Promise<any>;
 
   getCollections(userId: string | null): Promise<Collection[]>;
   getCollection(name: any): Promise<Collection>;
   createCollection(name: any): Promise<Collection>;
+
+  getLoras(username?: string | null): Promise<Lora[]>;
+  getLora(name: any): Promise<Lora>;
 
   getGenerators(): Promise<any>;
   getGenerator(generatorName: string, generatorVersion?: string): Promise<any>;
@@ -80,5 +95,6 @@ export {
   Creator,
   Creation,
   Collection,
+  Lora,
   EdenClient,
 }

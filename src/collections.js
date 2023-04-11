@@ -40,9 +40,7 @@ export class Collection {
 };
 
 export async function getCollections(userId) {
-  const result = await http.get('/collections', {
-    userId: userId
-  });
+  const result = await http.get(`/collections?userId=${userId}`);
   return result.collections.map(collection => new Collection(collection));  
 }
 

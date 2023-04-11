@@ -34,7 +34,8 @@ export class Creator {
   getProfile = async function() {
     const result = await http.get(`${this.baseRoute}/profile`);
     return result;
-  }  
+  }
+  
 };
 
 export const getCreators = async function() {
