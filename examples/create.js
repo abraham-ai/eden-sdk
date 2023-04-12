@@ -22,8 +22,13 @@ let config2 = {
   "upscale_f": 2.0
 }
 
+let metadata = {
+  name: "test metadata", 
+  description: "foo bar"
+}
+
 //let result = await eden.create("interpolate", config);
-let result = await eden.create("create", config2);
+let result = await eden.create("create", config2, metadata=metadata);
 console.log(result);
 
 manna = await eden.getManna();

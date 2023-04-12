@@ -14,7 +14,16 @@ export class Creation {
 
   react = async function(reaction) {
     const result = await http.post(`${this.baseRoute}/react`, {
-      reaction: reaction
+      reaction: reaction,
+      unreact: false
+    });
+    return result;
+  }
+
+  unreact = async function(reaction) {
+    const result = await http.post(`${this.baseRoute}/react`, {
+      reaction: reaction,
+      unreact: true
     });
     return result;
   }
@@ -51,10 +60,11 @@ export async function getCreation(creationId) {
   return new Creation(result.creation);
 };
 
-export async function startTask(generatorName, config, generatorVersion=null) {
+export async function startTask(generatorName, config, metadata=null, generatorVersion=null) {
   const request = {
     generatorName: generatorName,
     config: config,
+    metadata: metadata,
     generatorVersion: generatorVersion,
   };
   const result = await http.post('/user/create', request);
@@ -78,8 +88,8 @@ export async function getTaskStatus(taskId) {
   return { status, task };
 };
 
-export async function create(generatorName, config, generatorVersion=null, pollingInterval=2000) {
-  let result = await this.startTask(generatorName, config, generatorVersion);
+export async function create(generatorName, config, metadata=null, generatorVersion=null, pollingInterval=2000) {
+  let result = await this.startTask(generatorName, config, metadata, generatorVersion);
   if (result.error) {
     return result;
   }

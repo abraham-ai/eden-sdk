@@ -20,6 +20,7 @@ declare class Creation {
   );
 
   react(reaction: string): Promise<any>;
+  unreact(reaction: string): Promise<any>;
   getRecreations(): Promise<Creation[]>;
   getCollections(): Promise<Collection[]>;
   getReactions(reactions: string[] | null): Promise<any[]>;
@@ -75,10 +76,10 @@ declare class EdenClient {
   
   getCreations(filter: any | null): Promise<Creation[]>;
   getCreation(creationId: string): Promise<Creation>;
-  startTask(generatorName: string, config: any, generatorVersion?: string): Promise<any>;
+  startTask(generatorName: string, config: any, metadata: any, generatorVersion?: string): Promise<any>;
   getTasks(filter: any | null): Promise<any>;
   getTaskStatus(taskId: string): Promise<any>;
-  create(generatorName: string, config: any, generatorVersion?: string): Promise<any>;
+  create(generatorName: string, config: any, metadata: any, generatorVersion?: string): Promise<any>;
 
   getCollections(userId: string | null): Promise<Collection[]>;
   getCollection(name: any): Promise<Collection>;
