@@ -7,11 +7,23 @@ console.log(manna);
 
 let config = {
   text_input: "An astronaut on the moon riding a horse, cartoon 1920s",
+  interpolation_texts: [
+    "An astronaut on the moon riding a horse, cartoon 1920s",
+    "A volleyball player on the moon riding a horse, cartoon 1950s"
+  ],
+  n_frames: 20,
   width: 768,
   height: 512
 }
 
-let result = await eden.create("create", config);
+let config2 = {
+  "text_input": "a dog jumps over a rainbow",
+  "sampler": "euler",
+  "upscale_f": 2.0
+}
+
+//let result = await eden.create("interpolate", config);
+let result = await eden.create("create", config2);
 console.log(result);
 
 manna = await eden.getManna();

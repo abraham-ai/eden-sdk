@@ -13,6 +13,12 @@ console.log(result);
 let reactions = await creation.getReactions(["👍", "🔥"]);
 console.log(reactions);
 
+result = await creation.unreact("👍");
+console.log(result);
+
+reactions = await creation.getReactions(["👍", "🔥"]);
+console.log(reactions);
+
 let collections = await creation.getCollections();
 console.log(collections);
 
