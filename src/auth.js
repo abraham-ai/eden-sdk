@@ -40,13 +40,17 @@ export async function updateProfile(update) {
 };
 
 export async function uploadFile(filePath) {
-  const media = await fs.readFile(filePath);
-  const form = new FormData();
-  form.append('media', media);
-  const route = `/media/upload`
-  const headers = {...http.getHeaders(), ...form.getHeaders()};
-  const result = http.post(route, form, headers);
-  return result;
+  try {
+    const media = await fs.readFile(filePath);
+    const form = new FormData();
+    form.append('media', media);
+    const route = `/media/upload`;
+    const headers = {...http.getHeaders(), ...form.getHeaders()};
+    const result = await http.post(route, form, headers);
+    return result;
+  } catch (error) {
+    throw new Error(`Failed to upload file: ${error.message}`);
+  }
 };
 
 export async function uploadFiles(filePaths) {
