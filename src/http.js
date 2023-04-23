@@ -56,7 +56,8 @@ async function MakeHTTPRequest(method, route, data=null, headers=null) {
   try {
    const response = await axios(payload);
     return response.data;
-  } catch (error) { 
+  } 
+  catch (error) { 
     if (error.message) {
       return {error: error.message};
     } else {

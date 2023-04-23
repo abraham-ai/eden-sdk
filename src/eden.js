@@ -3,6 +3,7 @@ import * as auth from './auth.js';
 import * as creators from './creators.js';
 import * as creations from './creations.js';
 import * as collections from './collections.js';
+import * as mints from './mints.js';
 import * as loras from './loras.js';
 import * as generators from './generators.js';
 
@@ -44,6 +45,9 @@ class EdenClient {
     this.getCollections = collections.getCollections.bind(this);
     this.getCollection = collections.getCollection.bind(this);
     this.createCollection = collections.createCollection.bind(this);
+
+    this.getMints = mints.getMints.bind(this);
+    this.getMint = mints.getMint.bind(this);
 
     this.getLoras = loras.getLoras.bind(this);
     this.getLora = loras.getLora.bind(this);

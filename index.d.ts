@@ -85,6 +85,9 @@ declare class EdenClient {
   getCollection(name: any): Promise<Collection>;
   createCollection(name: any): Promise<Collection>;
 
+  getMints(userId: string | null): Promise<any[]>;
+  getMint(mintId: any): Promise<any>;
+
   getLoras(username?: string | null): Promise<Lora[]>;
   getLora(name: any): Promise<Lora>;
 
