@@ -9,7 +9,7 @@ export class Lora {
 
 };
 
-export async function getLoras(username=null) {
+export async function getLoras(username) {
   const route = username ? `/loras?username=${username}` : '/loras';
   const result = await http.get(route);
   return result.loras.map(lora => new Lora(lora));  

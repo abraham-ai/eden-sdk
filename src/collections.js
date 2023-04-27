@@ -40,11 +40,15 @@ export class Collection {
 };
 
 export async function getCollections(userId) {
-  const result = await http.get(`/collections?userId=${userId}`);
+  const route = userId ? `/collections?userId=${userId}` : '/collections';
+  const result = await http.get(route);
   return result.collections.map(collection => new Collection(collection));  
 }
 
 export async function getCollection(collectionId) {
+  if (!collectionId) {
+    throw new Error('collectionId is required');
+  }
   const result = await http.get(`/collection/${collectionId}`);
   return new Collection(result.collection);
 }

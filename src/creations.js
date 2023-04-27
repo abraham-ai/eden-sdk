@@ -78,6 +78,9 @@ export async function getTasks(filter) {
 };
 
 export async function getTaskStatus(taskId) {
+  if (!taskId) {
+    throw new Error('taskId is required');
+  }
   const data = { taskIds: [taskId] };
   const response = await http.post('/user/tasks', data);
   if (!response.tasks) {

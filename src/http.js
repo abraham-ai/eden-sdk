@@ -52,17 +52,12 @@ async function MakeHTTPRequest(method, route, data=null, headers=null) {
     data: data,
     headers: headers,
   }
-
   try {
-   const response = await axios(payload);
+    const response = await axios(payload);
     return response.data;
   } 
   catch (error) { 
-    if (error.message) {
-      return {error: error.message};
-    } else {
-      return {error: error.response.data.message};
-    }
+    return {error: error.response.data.message};
   }
 };
 

@@ -49,7 +49,7 @@ export async function uploadFile(filePath) {
     const result = await http.post(route, form, headers);
     return result;
   } catch (error) {
-    throw new Error(`Failed to upload file: ${error.message}`);
+    return {error: `Failed to upload file: ${error.message}`};
   }
 };
 
