@@ -58,6 +58,7 @@ declare class EdenClient {
     apiUrl?: string | null,
   );
   
+  getApiUrl(): string;
   setAuthToken(authToken: string): void;
   loginApi(apiKey: string, apiSecret: string): void;
   loginEth(message: string, signature: string, address:string): Promise<any>;  
