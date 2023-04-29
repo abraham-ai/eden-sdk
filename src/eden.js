@@ -20,7 +20,7 @@ class EdenClient {
     this.get = http.get.bind(this);
     this.getApiUrl = http.getApiUrl.bind(this);
 
-    this.setAuthToken = auth.setAuthToken;
+    this.setAuthToken = auth.setAuthToken.bind(this);;
     this.loginApi = auth.loginApi.bind(this);
     this.loginEth = auth.loginEth.bind(this);
 
