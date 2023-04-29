@@ -18,6 +18,7 @@ class EdenClient {
   constructor(apiKey=null, apiSecret=null, apiUrl=null) {    
     this.post = http.post.bind(this);
     this.get = http.get.bind(this);
+    this.getApiUrl = http.getApiUrl.bind(this);
 
     this.setAuthToken = auth.setAuthToken;
     this.loginApi = auth.loginApi.bind(this);

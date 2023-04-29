@@ -21,6 +21,10 @@ export function setApiUrl(url) {
   EDEN_API_URL = url || EDEN_API_URL;
 }
 
+export function getApiUrl() {
+  return EDEN_API_URL;
+}
+
 export function setApiKey(apiKey, apiSecret) {
   EDEN_API_KEY = apiKey || EDEN_API_KEY;
   EDEN_API_SECRET = apiSecret || EDEN_API_SECRET;
