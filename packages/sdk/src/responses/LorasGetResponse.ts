@@ -1,10 +1,10 @@
 import { WebAPICallResult } from '../EdenClient';
-export type CharactersGetResponse = WebAPICallResult & {
+export type LorasGetResponse = WebAPICallResult & {
   error?: string;
-  character?: Character;
+  lora?: Lora;
 };
 
-export type Character = {
+export type Lora = {
   _id: string;
   user: string;
   task: string;

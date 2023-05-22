@@ -22,7 +22,6 @@ describe('Character Methods', () => {
     });
     expect(result).toBeDefined();
     expect(result.character).toBeDefined();
-    console.log('111', result.character);
 
     const expectedCharacterProperties: Partial<Character> = {
       _id: expect.any(String),

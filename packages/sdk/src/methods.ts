@@ -5,6 +5,10 @@ import { ApiKeysGetResponse } from 'src/responses/ApiKeysListResponse';
 import { AuthLoginResponse } from 'src/responses/AuthLoginResponse';
 import { CharactersGetResponse } from 'src/responses/CharactersGetResponse';
 import { CharactersListResponse } from 'src/responses/CharactersListResponse';
+import { LorasGetResponse } from 'src/responses/LorasGetResponse';
+import { LorasListResponse } from 'src/responses/LorasListResponse';
+import { MintsGetResponse } from 'src/responses/MintsGetResponse';
+import { MintsListResponse } from 'src/responses/MintsListResponse';
 import { Verb } from 'src/types';
 
 export default interface Method<
@@ -66,6 +70,32 @@ export abstract class Methods {
       'GET',
     ),
   };
+
+  public readonly loras = {
+    get: bindApiCall<LorasGetArguments, LorasGetResponse>(
+      this,
+      'loras/get',
+      'GET',
+    ),
+    list: bindApiCall<LorasListArguments, LorasListResponse>(
+      this,
+      'loras/list',
+      'GET',
+    ),
+  };
+
+  public readonly mints = {
+    get: bindApiCall<MintsGetArguments, MintsGetResponse>(
+      this,
+      'mints/get',
+      'GET',
+    ),
+    list: bindApiCall<MintsListArguments, MintsListResponse>(
+      this,
+      'mints/list',
+      'GET',
+    ),
+  };
 }
 
 export interface ApiKeysGetArguments extends WebAPICallOptions {}
@@ -89,5 +119,21 @@ export interface CharactersGetArguments extends WebAPICallOptions {
 }
 
 export interface CharactersListArguments extends WebAPICallOptions {
+  userId: string;
+}
+
+export interface LorasGetArguments extends WebAPICallOptions {
+  loraId: string;
+}
+
+export interface LorasListArguments extends WebAPICallOptions {
+  userId: string;
+}
+
+export interface MintsGetArguments extends WebAPICallOptions {
+  mintId: string;
+}
+
+export interface MintsListArguments extends WebAPICallOptions {
   userId: string;
 }

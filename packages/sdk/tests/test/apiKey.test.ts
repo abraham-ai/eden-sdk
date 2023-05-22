@@ -14,7 +14,6 @@ describe('API Key Methods', () => {
     const result = await client.apiKeys.create({
       note: 'test',
     });
-    console.log(result);
     expect(result).toBeDefined();
     expect(result.apiKey).toBeDefined();
 
