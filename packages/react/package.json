@@ -1,0 +1,35 @@
+{
+  "name": "@edenlabs/eden-react-hooks",
+  "version": "0.0.1-alpha",
+  "description": "React hooks for interacting with the Eden API",
+  "module": "./lib/esm/index.js",
+  "main": "./lib/cjs/index.js",
+  "types": "./lib/cjs/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "rm -Rf lib/",
+    "build": "yarn build:esm && yarn build:cjs",
+    "build:esm": "tsc --project ./tsconfig.esm.json",
+    "build:cjs": "tsc --project ./tsconfig.cjs.json",
+    "dev": "tsc -w",
+    "prettier": "prettier src --write"
+  },
+  "author": "Eden Labs",
+  "license": "MIT",
+  "dependencies": {
+    "@edenlabs/sdk": "^0.0.1-alpha"
+  },
+  "peerDependencies": {
+    "react": ">=18.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.6",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-react-app": "^7.0.1",
+    "prettier": "^2.8.8",
+    "typescript": "^5.0.4"
+  }
+}

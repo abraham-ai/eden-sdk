@@ -1,0 +1,29 @@
+{
+  "name": "@eden-labs/sdk",
+  "version": "0.1.0",
+  "description": "SDK for interacting with the Eden API",
+  "main": "dist/index.js",
+  "module": "dist/index.m.js",
+  "unpkg": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap"
+  },
+  "keywords": [],
+  "author": "Eden Labs",
+  "license": "MIT",
+  "devDependencies": {
+    "microbundle": "^0.15.1",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "axios": "^1.4.0"
+  },
+  "exports": {
+    "require": "./dist/index.js",
+    "default": "./dist/index.modern.js"
+  },
+  "files": [
+    "dist"
+  ]
+}
