@@ -1,7 +1,8 @@
 import { WebAPICallOptions, WebAPICallResult } from 'src/EdenClient';
-import { ApiKeysCreateResponse } from 'src/responses/CreateApiKeyResponse';
-import { ApiKeysDeleteResponse } from 'src/responses/DeleteApiKeyResponse';
-import { ApiKeysGetResponse } from 'src/responses/GetApiKeysResponse';
+import { ApiKeysCreateResponse } from 'src/responses/ApiKeysCreateResponse';
+import { ApiKeysDeleteResponse } from 'src/responses/ApiKeysDeleteResponse';
+import { ApiKeysGetResponse } from 'src/responses/ApiKeysListResponse';
+import { AuthLoginResponse } from 'src/responses/AuthLoginResponse';
 import { Verb } from 'src/types';
 
 export default interface Method<
@@ -42,6 +43,14 @@ export abstract class Methods {
       'POST',
     ),
   };
+
+  public readonly auth = {
+    login: bindApiCall<AuthLoginArguments, AuthLoginResponse>(
+      this,
+      'auth/login',
+      'POST',
+    ),
+  };
 }
 
 export interface ApiKeysGetArguments extends WebAPICallOptions {}
@@ -52,4 +61,10 @@ export interface ApiKeysCreateArguments extends WebAPICallOptions {
 
 export interface ApiKeysDeleteArguments extends WebAPICallOptions {
   apiKey: string;
+}
+
+export interface AuthLoginArguments extends WebAPICallOptions {
+  address: string;
+  message: string;
+  signature: string;
 }

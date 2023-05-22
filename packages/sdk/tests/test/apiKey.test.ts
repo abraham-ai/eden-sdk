@@ -1,7 +1,4 @@
-import {
-  ApiKeysCreateResponse,
-  NewApiKey,
-} from 'src/responses/CreateApiKeyResponse';
+import { NewApiKey } from 'src/responses/ApiKeysCreateResponse';
 import { test, describe, expect } from 'vitest';
 
 describe('API Key Methods', () => {
