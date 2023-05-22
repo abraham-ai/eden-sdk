@@ -3,6 +3,8 @@ import { ApiKeysCreateResponse } from 'src/responses/ApiKeysCreateResponse';
 import { ApiKeysDeleteResponse } from 'src/responses/ApiKeysDeleteResponse';
 import { ApiKeysGetResponse } from 'src/responses/ApiKeysListResponse';
 import { AuthLoginResponse } from 'src/responses/AuthLoginResponse';
+import { CharactersGetResponse } from 'src/responses/CharactersGetResponse';
+import { CharactersListResponse } from 'src/responses/CharactersListResponse';
 import { Verb } from 'src/types';
 
 export default interface Method<
@@ -51,6 +53,19 @@ export abstract class Methods {
       'POST',
     ),
   };
+
+  public readonly characters = {
+    get: bindApiCall<CharactersGetArguments, CharactersGetResponse>(
+      this,
+      'characters/get',
+      'GET',
+    ),
+    list: bindApiCall<CharactersListArguments, CharactersListResponse>(
+      this,
+      'characters/list',
+      'GET',
+    ),
+  };
 }
 
 export interface ApiKeysGetArguments extends WebAPICallOptions {}
@@ -67,4 +82,12 @@ export interface AuthLoginArguments extends WebAPICallOptions {
   address: string;
   message: string;
   signature: string;
+}
+
+export interface CharactersGetArguments extends WebAPICallOptions {
+  characterId: string;
+}
+
+export interface CharactersListArguments extends WebAPICallOptions {
+  userId: string;
 }
