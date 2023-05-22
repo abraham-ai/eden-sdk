@@ -7,14 +7,16 @@
   "unpkg": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap"
+    "build": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "Eden Labs",
   "license": "MIT",
   "devDependencies": {
     "microbundle": "^0.15.1",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "vitest": "^0.31.1"
   },
   "dependencies": {
     "axios": "^1.4.0"

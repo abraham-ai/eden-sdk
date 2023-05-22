@@ -1,7 +1,6 @@
 import { WebAPICallResult } from '../EdenClient';
-export type GetApiKeysResponse = WebAPICallResult & {
+export type ApiKeysGetResponse = WebAPICallResult & {
   error?: string;
-  ok?: boolean;
   apiKeys?: Array<ApiKey>;
 };
 
