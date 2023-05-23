@@ -5,6 +5,8 @@ import { ApiKeysGetResponse } from 'src/responses/ApiKeysListResponse';
 import { AuthLoginResponse } from 'src/responses/AuthLoginResponse';
 import { CharactersGetResponse } from 'src/responses/CharactersGetResponse';
 import { CharactersListResponse } from 'src/responses/CharactersListResponse';
+import { GeneratorsGetResponse } from 'src/responses/GeneratorsGetResponse';
+import { GeneratorsListResponse } from 'src/responses/GeneratorsListResponse';
 import { LorasGetResponse } from 'src/responses/LorasGetResponse';
 import { LorasListResponse } from 'src/responses/LorasListResponse';
 import { MintsGetResponse } from 'src/responses/MintsGetResponse';
@@ -71,6 +73,19 @@ export abstract class Methods {
     ),
   };
 
+  public readonly generators = {
+    get: bindApiCall<GeneratorsGetArguments, GeneratorsGetResponse>(
+      this,
+      'generators/get',
+      'GET',
+    ),
+    list: bindApiCall<GeneratorsListArguments, GeneratorsListResponse>(
+      this,
+      'generators/list',
+      'GET',
+    ),
+  };
+
   public readonly loras = {
     get: bindApiCall<LorasGetArguments, LorasGetResponse>(
       this,
@@ -80,6 +95,14 @@ export abstract class Methods {
     list: bindApiCall<LorasListArguments, LorasListResponse>(
       this,
       'loras/list',
+      'GET',
+    ),
+  };
+
+  public readonly manna = {
+    balance: bindApiCall<WebAPICallOptions, WebAPICallResult>(
+      this,
+      'manna/balance',
       'GET',
     ),
   };
@@ -122,6 +145,12 @@ export interface CharactersListArguments extends WebAPICallOptions {
   userId: string;
 }
 
+export interface GeneratorsGetArguments extends WebAPICallOptions {
+  generatorName: string;
+}
+
+export interface GeneratorsListArguments extends WebAPICallOptions {}
+
 export interface LorasGetArguments extends WebAPICallOptions {
   loraId: string;
 }
@@ -129,6 +158,8 @@ export interface LorasGetArguments extends WebAPICallOptions {
 export interface LorasListArguments extends WebAPICallOptions {
   userId: string;
 }
+
+export interface MannaBalanceGetArguments extends WebAPICallOptions {}
 
 export interface MintsGetArguments extends WebAPICallOptions {
   mintId: string;
