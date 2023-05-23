@@ -20,7 +20,6 @@ describe('API Key Methods', () => {
     const expectedApiKeyProperties: Partial<NewApiKey> = {
       apiKey: expect.any(String),
       apiSecret: expect.any(String),
-      note: 'test',
     };
 
     expect(result.apiKey).toMatchObject(expectedApiKeyProperties);

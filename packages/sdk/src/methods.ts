@@ -3,14 +3,8 @@ import { ApiKeysCreateResponse } from 'src/responses/ApiKeysCreateResponse';
 import { ApiKeysDeleteResponse } from 'src/responses/ApiKeysDeleteResponse';
 import { ApiKeysGetResponse } from 'src/responses/ApiKeysListResponse';
 import { AuthLoginResponse } from 'src/responses/AuthLoginResponse';
-import { CharactersGetResponse } from 'src/responses/CharactersGetResponse';
-import { CharactersListResponse } from 'src/responses/CharactersListResponse';
 import { GeneratorsGetResponse } from 'src/responses/GeneratorsGetResponse';
 import { GeneratorsListResponse } from 'src/responses/GeneratorsListResponse';
-import { LorasGetResponse } from 'src/responses/LorasGetResponse';
-import { LorasListResponse } from 'src/responses/LorasListResponse';
-import { MintsGetResponse } from 'src/responses/MintsGetResponse';
-import { MintsListResponse } from 'src/responses/MintsListResponse';
 import { Verb } from 'src/types';
 
 export default interface Method<
@@ -35,7 +29,7 @@ export abstract class Methods {
   ): Promise<WebAPICallResult>;
 
   public readonly apiKeys = {
-    get: bindApiCall<ApiKeysGetArguments, ApiKeysGetResponse>(
+    get: bindApiCall<ApiKeysListArguments, ApiKeysGetResponse>(
       this,
       'apikeys/list',
       'GET',
@@ -60,19 +54,6 @@ export abstract class Methods {
     ),
   };
 
-  public readonly characters = {
-    get: bindApiCall<CharactersGetArguments, CharactersGetResponse>(
-      this,
-      'characters/get',
-      'GET',
-    ),
-    list: bindApiCall<CharactersListArguments, CharactersListResponse>(
-      this,
-      'characters/list',
-      'GET',
-    ),
-  };
-
   public readonly generators = {
     get: bindApiCall<GeneratorsGetArguments, GeneratorsGetResponse>(
       this,
@@ -85,20 +66,6 @@ export abstract class Methods {
       'GET',
     ),
   };
-
-  public readonly loras = {
-    get: bindApiCall<LorasGetArguments, LorasGetResponse>(
-      this,
-      'loras/get',
-      'GET',
-    ),
-    list: bindApiCall<LorasListArguments, LorasListResponse>(
-      this,
-      'loras/list',
-      'GET',
-    ),
-  };
-
   public readonly manna = {
     balance: bindApiCall<WebAPICallOptions, WebAPICallResult>(
       this,
@@ -106,22 +73,9 @@ export abstract class Methods {
       'GET',
     ),
   };
-
-  public readonly mints = {
-    get: bindApiCall<MintsGetArguments, MintsGetResponse>(
-      this,
-      'mints/get',
-      'GET',
-    ),
-    list: bindApiCall<MintsListArguments, MintsListResponse>(
-      this,
-      'mints/list',
-      'GET',
-    ),
-  };
 }
 
-export interface ApiKeysGetArguments extends WebAPICallOptions {}
+export interface ApiKeysListArguments extends WebAPICallOptions {}
 
 export interface ApiKeysCreateArguments extends WebAPICallOptions {
   note?: string;
@@ -136,35 +90,10 @@ export interface AuthLoginArguments extends WebAPICallOptions {
   message: string;
   signature: string;
 }
-
-export interface CharactersGetArguments extends WebAPICallOptions {
-  characterId: string;
-}
-
-export interface CharactersListArguments extends WebAPICallOptions {
-  userId: string;
-}
-
 export interface GeneratorsGetArguments extends WebAPICallOptions {
   generatorName: string;
 }
 
 export interface GeneratorsListArguments extends WebAPICallOptions {}
 
-export interface LorasGetArguments extends WebAPICallOptions {
-  loraId: string;
-}
-
-export interface LorasListArguments extends WebAPICallOptions {
-  userId: string;
-}
-
 export interface MannaBalanceGetArguments extends WebAPICallOptions {}
-
-export interface MintsGetArguments extends WebAPICallOptions {
-  mintId: string;
-}
-
-export interface MintsListArguments extends WebAPICallOptions {
-  userId: string;
-}
