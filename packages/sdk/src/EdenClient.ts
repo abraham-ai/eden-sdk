@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { INVALID_AUTH_MESSAGE, Verb } from 'src/types';
 import { Methods } from 'src/methods';
 
@@ -45,8 +45,7 @@ export class EdenClient extends Methods {
   }
 
   public async apiCall(
-    method: string,
-    verb: Verb,
+    configFn: (options: WebAPICallOptions) => AxiosRequestConfig,
     options: WebAPICallOptions = {},
   ): Promise<WebAPICallResult> {
     const headers: Record<string, string> = {};
@@ -55,37 +54,18 @@ export class EdenClient extends Methods {
       headers['X-Api-Key'] = this.apiKey as string;
       headers['X-Api-Secret'] = this.apiSecret as string;
     }
+    const requestConfig = configFn(options);
+    requestConfig.headers = headers;
 
-    const response = await this.makeRequest(
-      method,
-      verb,
-      {
-        ...options,
-      },
-      headers,
-    );
+    const response = await this.makeRequest(requestConfig);
     const result = await this.buildResult(response);
     return result;
   }
 
   private async makeRequest(
-    url: string,
-    verb: Verb,
-    body: any,
-    headers: any = {},
+    requestConfig: AxiosRequestConfig,
   ): Promise<AxiosResponse> {
-    let response;
-    if (verb === 'GET') {
-      response = await this.axios.get(url, {
-        params: body,
-        headers,
-      });
-    } else if (verb === 'POST') {
-      response = await this.axios.post(url, body, {
-        headers,
-      });
-    }
-    return response;
+    return this.axios.request(requestConfig);
   }
 
   private async buildResult(

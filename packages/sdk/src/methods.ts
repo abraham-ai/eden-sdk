@@ -1,3 +1,4 @@
+import { AxiosRequestConfig } from 'axios';
 import { WebAPICallOptions, WebAPICallResult } from 'src/EdenClient';
 import { ApiKeysCreateResponse } from 'src/responses/ApiKeysCreateResponse';
 import { ApiKeysDeleteResponse } from 'src/responses/ApiKeysDeleteResponse';
@@ -5,7 +6,7 @@ import { ApiKeysGetResponse } from 'src/responses/ApiKeysListResponse';
 import { AuthLoginResponse } from 'src/responses/AuthLoginResponse';
 import { GeneratorsGetResponse } from 'src/responses/GeneratorsGetResponse';
 import { GeneratorsListResponse } from 'src/responses/GeneratorsListResponse';
-import { Verb } from 'src/types';
+import { MannaBalanceGetResponse } from 'src/responses/MannaBalanceGetResponse';
 
 export default interface Method<
   MethodArguments extends WebAPICallOptions,
@@ -17,60 +18,58 @@ export default interface Method<
 function bindApiCall<
   Arguments extends WebAPICallOptions,
   Result extends WebAPICallResult,
->(self: Methods, method: string, verb: Verb): Method<Arguments, Result> {
-  return self.apiCall.bind(self, method, verb) as Method<Arguments, Result>;
+>(
+  self: Methods,
+  configFn: (options) => AxiosRequestConfig,
+): Method<Arguments, Result> {
+  // We have to "assert" that the bound method does indeed return the more specific `Result` type instead of just
+  // `WebAPICallResult`
+  return self.apiCall.bind(self, configFn) as Method<Arguments, Result>;
 }
 
 export abstract class Methods {
   public abstract apiCall(
-    method: string,
-    verb: Verb,
+    configFn: (options: WebAPICallOptions) => AxiosRequestConfig,
     options?: WebAPICallOptions,
   ): Promise<WebAPICallResult>;
 
   public readonly apiKeys = {
     get: bindApiCall<ApiKeysListArguments, ApiKeysGetResponse>(
       this,
-      'apikeys/list',
-      'GET',
+      apiKeysListRequestConfig,
     ),
     create: bindApiCall<ApiKeysCreateArguments, ApiKeysCreateResponse>(
       this,
-      'apikeys/create',
-      'POST',
+      apiKeysCreateRequestConfig,
     ),
     delete: bindApiCall<ApiKeysDeleteArguments, ApiKeysDeleteResponse>(
       this,
-      'apikeys/delete',
-      'POST',
+      apiKeysDeleteRequestConfig,
     ),
   };
 
   public readonly auth = {
     login: bindApiCall<AuthLoginArguments, AuthLoginResponse>(
       this,
-      'auth/login',
-      'POST',
+      authLoginRequestConfig,
     ),
   };
 
   public readonly generators = {
-    get: bindApiCall<GeneratorsGetArguments, GeneratorsGetResponse>(
-      this,
-      'generators/get',
-      'GET',
-    ),
     list: bindApiCall<GeneratorsListArguments, GeneratorsListResponse>(
       this,
-      'generators/list',
-      'GET',
+      generatorsListRequestConfig,
+    ),
+    get: bindApiCall<GeneratorsGetArguments, GeneratorsGetResponse>(
+      this,
+      generatorsGetRequestConfig,
     ),
   };
+
   public readonly manna = {
-    balance: bindApiCall<WebAPICallOptions, WebAPICallResult>(
+    balance: bindApiCall<MannaBalanceGetArguments, MannaBalanceGetResponse>(
       this,
-      'manna/balance',
-      'GET',
+      mannaBalanceGetRequestConfig,
     ),
   };
 }
@@ -90,10 +89,77 @@ export interface AuthLoginArguments extends WebAPICallOptions {
   message: string;
   signature: string;
 }
+
+export interface GeneratorsListArguments extends WebAPICallOptions {}
+
 export interface GeneratorsGetArguments extends WebAPICallOptions {
   generatorName: string;
 }
 
-export interface GeneratorsListArguments extends WebAPICallOptions {}
-
 export interface MannaBalanceGetArguments extends WebAPICallOptions {}
+
+const apiKeysListRequestConfig = (): AxiosRequestConfig => {
+  return {
+    method: 'GET',
+    url: 'apikeys',
+  };
+};
+
+const apiKeysCreateRequestConfig = (
+  args: ApiKeysCreateArguments,
+): AxiosRequestConfig => {
+  return {
+    method: 'POST',
+    url: 'apikeys/create',
+    data: {
+      note: args.note,
+    },
+  };
+};
+
+const apiKeysDeleteRequestConfig = (
+  args: ApiKeysDeleteArguments,
+): AxiosRequestConfig => {
+  return {
+    method: 'POST',
+    url: 'apikeys/delete',
+    data: {
+      ...args,
+    },
+  };
+};
+
+const authLoginRequestConfig = (
+  args: AuthLoginArguments,
+): AxiosRequestConfig => {
+  return {
+    method: 'POST',
+    url: 'auth/login',
+    data: {
+      ...args,
+    },
+  };
+};
+
+const generatorsListRequestConfig = (): AxiosRequestConfig => {
+  return {
+    method: 'GET',
+    url: 'generators',
+  };
+};
+
+const generatorsGetRequestConfig = (
+  args: GeneratorsGetArguments,
+): AxiosRequestConfig => {
+  return {
+    method: 'GET',
+    url: `generators/${args.generatorName}`,
+  };
+};
+
+const mannaBalanceGetRequestConfig = (): AxiosRequestConfig => {
+  return {
+    method: 'GET',
+    url: 'manna/balance',
+  };
+};
