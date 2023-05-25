@@ -4,9 +4,14 @@ import { ApiKeysCreateResponse } from 'src/responses/ApiKeysCreateResponse';
 import { ApiKeysDeleteResponse } from 'src/responses/ApiKeysDeleteResponse';
 import { ApiKeysGetResponse } from 'src/responses/ApiKeysListResponse';
 import { AuthLoginResponse } from 'src/responses/AuthLoginResponse';
+import { CreationsGetResponse } from 'src/responses/CreationsGetResponse';
+import { CreationsListResponse } from 'src/responses/CreationsListResponse';
 import { GeneratorsGetResponse } from 'src/responses/GeneratorsGetResponse';
 import { GeneratorsListResponse } from 'src/responses/GeneratorsListResponse';
 import { MannaBalanceGetResponse } from 'src/responses/MannaBalanceGetResponse';
+import { TasksCreateResponse } from 'src/responses/TasksCreateResponse';
+import { TasksGetResponse } from 'src/responses/TasksGetResponse';
+import { TasksListResponse } from 'src/responses/TasksListResponse';
 
 export default interface Method<
   MethodArguments extends WebAPICallOptions,
@@ -55,6 +60,17 @@ export abstract class Methods {
     ),
   };
 
+  public readonly creations = {
+    list: bindApiCall<CreationsListArguments, CreationsListResponse>(
+      this,
+      creationsListRequestConfig,
+    ),
+    get: bindApiCall<CreationsGetArguments, CreationsGetResponse>(
+      this,
+      creationsGetRequestConfig,
+    ),
+  };
+
   public readonly generators = {
     list: bindApiCall<GeneratorsListArguments, GeneratorsListResponse>(
       this,
@@ -70,6 +86,21 @@ export abstract class Methods {
     balance: bindApiCall<MannaBalanceGetArguments, MannaBalanceGetResponse>(
       this,
       mannaBalanceGetRequestConfig,
+    ),
+  };
+
+  public readonly tasks = {
+    create: bindApiCall<TasksCreateArguments, TasksCreateResponse>(
+      this,
+      tasksCreateRequestConfig,
+    ),
+    get: bindApiCall<TasksGetArguments, TasksGetResponse>(
+      this,
+      tasksGetRequestConfig,
+    ),
+    list: bindApiCall<TasksListArguments, TasksListResponse>(
+      this,
+      tasksListRequestConfig,
     ),
   };
 }
@@ -90,6 +121,19 @@ export interface AuthLoginArguments extends WebAPICallOptions {
   signature: string;
 }
 
+export interface CreationsListArguments extends WebAPICallOptions {
+  username?: string;
+  generators?: string[];
+  collectionId?: string;
+  earliestTime?: string;
+  latestTime?: string;
+  limit?: number;
+}
+
+export interface CreationsGetArguments extends WebAPICallOptions {
+  creationId: string;
+}
+
 export interface GeneratorsListArguments extends WebAPICallOptions {}
 
 export interface GeneratorsGetArguments extends WebAPICallOptions {
@@ -97,6 +141,27 @@ export interface GeneratorsGetArguments extends WebAPICallOptions {
 }
 
 export interface MannaBalanceGetArguments extends WebAPICallOptions {}
+
+export interface TasksCreateArguments extends WebAPICallOptions {
+  generatorName: string;
+  versionId?: string;
+  config?: any;
+  metadata?: any;
+}
+
+export interface TasksListArguments extends WebAPICallOptions {
+  status?: string;
+  taskIds?: string[];
+  userId?: string;
+  generators?: string[];
+  earliestTime?: string;
+  latestTime?: string;
+  limit?: number;
+}
+
+export interface TasksGetArguments extends WebAPICallOptions {
+  taskId: string;
+}
 
 const apiKeysListRequestConfig = (): AxiosRequestConfig => {
   return {
@@ -141,6 +206,27 @@ const authLoginRequestConfig = (
   };
 };
 
+const creationsListRequestConfig = (
+  args: CreationsListArguments,
+): AxiosRequestConfig => {
+  return {
+    method: 'GET',
+    url: 'creations',
+    params: {
+      ...args,
+    },
+  };
+};
+
+const creationsGetRequestConfig = (
+  args: CreationsGetArguments,
+): AxiosRequestConfig => {
+  return {
+    method: 'GET',
+    url: `creations/${args.creationId}`,
+  };
+};
+
 const generatorsListRequestConfig = (): AxiosRequestConfig => {
   return {
     method: 'GET',
@@ -161,5 +247,36 @@ const mannaBalanceGetRequestConfig = (): AxiosRequestConfig => {
   return {
     method: 'GET',
     url: 'manna/balance',
+  };
+};
+
+const tasksCreateRequestConfig = (
+  args: TasksCreateArguments,
+): AxiosRequestConfig => {
+  return {
+    method: 'POST',
+    url: 'tasks/create',
+    data: {
+      ...args,
+    },
+  };
+};
+
+const tasksListRequestConfig = (
+  args: TasksListArguments,
+): AxiosRequestConfig => {
+  return {
+    method: 'GET',
+    url: 'tasks',
+    params: {
+      ...args,
+    },
+  };
+};
+
+const tasksGetRequestConfig = (args: TasksGetArguments): AxiosRequestConfig => {
+  return {
+    method: 'GET',
+    url: `tasks/${args.taskId}`,
   };
 };
