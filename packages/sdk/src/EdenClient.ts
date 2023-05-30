@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { INVALID_AUTH_MESSAGE, Verb } from 'src/types';
-import { Methods } from 'src/methods';
+import { INVALID_AUTH_MESSAGE } from './types';
+import { Methods } from './methods';
 
 export interface WebClientOptions {
   edenApiUrl?: string;

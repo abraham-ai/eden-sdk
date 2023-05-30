@@ -10,12 +10,6 @@
     "baseUrl": "./",
     "incremental": true
   },
-  // "include": ["src/**/*"],
-  "include": [
-    "src/**/*.ts",
-    "tests/**/*.ts",
-    "vite.config.ts",
-    "test-declarations.d.ts"
-  ],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

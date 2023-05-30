@@ -1,17 +1,17 @@
 import { AxiosRequestConfig } from 'axios';
-import { WebAPICallOptions, WebAPICallResult } from 'src/EdenClient';
-import { ApiKeysCreateResponse } from 'src/responses/ApiKeysCreateResponse';
-import { ApiKeysDeleteResponse } from 'src/responses/ApiKeysDeleteResponse';
-import { ApiKeysGetResponse } from 'src/responses/ApiKeysListResponse';
-import { AuthLoginResponse } from 'src/responses/AuthLoginResponse';
-import { CreationsGetResponse } from 'src/responses/CreationsGetResponse';
-import { CreationsListResponse } from 'src/responses/CreationsListResponse';
-import { GeneratorsGetResponse } from 'src/responses/GeneratorsGetResponse';
-import { GeneratorsListResponse } from 'src/responses/GeneratorsListResponse';
-import { MannaBalanceGetResponse } from 'src/responses/MannaBalanceGetResponse';
-import { TasksCreateResponse } from 'src/responses/TasksCreateResponse';
-import { TasksGetResponse } from 'src/responses/TasksGetResponse';
-import { TasksListResponse } from 'src/responses/TasksListResponse';
+import { WebAPICallOptions, WebAPICallResult } from './EdenClient';
+import { ApiKeysCreateResponse } from './responses/ApiKeysCreateResponse';
+import { ApiKeysDeleteResponse } from './responses/ApiKeysDeleteResponse';
+import { ApiKeysGetResponse } from './responses/ApiKeysListResponse';
+import { AuthLoginResponse } from './responses/AuthLoginResponse';
+import { CreationsGetResponse } from './responses/CreationsGetResponse';
+import { CreationsListResponse } from './responses/CreationsListResponse';
+import { GeneratorsGetResponse } from './responses/GeneratorsGetResponse';
+import { GeneratorsListResponse } from './responses/GeneratorsListResponse';
+import { MannaBalanceGetResponse } from './responses/MannaBalanceGetResponse';
+import { TasksCreateResponse } from './responses/TasksCreateResponse';
+import { TasksGetResponse } from './responses/TasksGetResponse';
+import { TasksListResponse } from './responses/TasksListResponse';
 
 export default interface Method<
   MethodArguments extends WebAPICallOptions,
